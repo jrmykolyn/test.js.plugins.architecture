@@ -12,6 +12,9 @@ global.window = {
     global.window.__lib__[eventName] = global.window.__lib__[eventName] || [];
     global.window.__lib__[eventName].forEach((callback) => callback());
   },
+  CustomEvent: function(data = {}) {
+    return data;
+  },
 };
 
 /**
