@@ -10,12 +10,18 @@ class Core {
     const { modules = [] } = opts;
 
     // Instantiate modules.
-    this.modules = this.sortModulesByType(modules).map((module) => new module());
+    this.modules = this.instantiateModules(modules);
 
     // Register event listeners.
     const [eventsModules] = this.getModulesByType('EVENTS');
     eventsModules.register('foo', 'bar', () => {
       return 'baz';
+    });
+  }
+
+  instantiateModules(modules) {
+    return this.sortModulesByType(modules).map((module) => {
+      return new module();
     });
   }
 
