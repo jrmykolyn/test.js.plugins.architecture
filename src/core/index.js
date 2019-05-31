@@ -20,9 +20,19 @@ class Core {
   }
 
   instantiateModules(modules) {
+    const moduleTypes = this.getModuleTypes(modules);
     return this.sortModulesByType(modules).map((module) => {
+      const deps = module.DEPENDENCIES || [];
+      const missing = deps.filter((dep) => moduleTypes.indexOf(dep) === -1);
+
+      if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
+
       return new module();
     });
+  }
+
+  getModuleTypes(modules) {
+    return modules.map((module) => module.TYPE).filter((type, i, arr) => i === arr.indexOf(type));
   }
 
   getModulesByType(type) {
