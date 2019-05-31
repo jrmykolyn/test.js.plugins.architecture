@@ -22,7 +22,8 @@ class Core {
   instantiateModules(modules) {
     const moduleTypes = this.getModuleTypes(modules);
     return this.sortModulesByType(modules).map((module) => {
-      const deps = module.DEPENDENCIES || [];
+      const deps = module.DEPENDENCIES;
+
       const missing = deps.filter((dep) => moduleTypes.indexOf(dep) === -1);
 
       if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
