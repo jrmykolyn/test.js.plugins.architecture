@@ -25,14 +25,21 @@ class Core {
   instantiateModules(modules) {
     const moduleTypes = this.getModuleTypes(modules);
     return this.sortModulesByType(modules).map((module) => {
-      const deps = module.DEPENDENCIES;
-
-      const missing = deps.filter((dep) => moduleTypes.indexOf(dep) === -1);
-
-      if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
-
-      return new module();
+      return this.instantiateModule(module, moduleTypes);
     });
+  }
+
+  instantiateModule(module, types = []) {
+    const isArr = Array.isArray(module);
+    const mod = isArr ? module[0] : module;
+    const modOpts = isArr ? module[1] : undefined;
+
+    const deps = mod.DEPENDENCIES;
+
+    const missing = deps.filter((dep) => types.length && types.indexOf(dep) === -1);
+    if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
+
+    return new mod(modOpts);
   }
 
   getModuleTypes(modules) {
