@@ -14,8 +14,11 @@ class Core {
 
     // Register event listeners.
     const [eventsModules] = this.getModulesByType('EVENTS');
-    eventsModules.register('foo', 'bar', () => {
-      return 'baz';
+    const dataSourceModules = this.getModulesByType('DATA_SOURCE');
+    dataSourceModules.forEach((moduleInstance) => {
+      moduleInstance.register().forEach(({ listenOn, emitOn, callback }) => {
+        eventsModules.register(listenOn, emitOn, callback);
+      });
     });
   }
 

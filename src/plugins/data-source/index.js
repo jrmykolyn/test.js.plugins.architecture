@@ -8,6 +8,16 @@ class DataSource extends AbstractPlugin {
   static get DEPENDENCIES() {
     return ['EVENTS'];
   }
+
+  register() {
+    return [
+      { listenOn: 'foo', emitOn: 'bar', callback: this.fetch },
+    ];
+  }
+
+  fetch() {
+    // TODO
+  }
 }
 
 module.exports = DataSource;
