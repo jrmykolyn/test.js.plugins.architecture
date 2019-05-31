@@ -9,7 +9,7 @@ class Events extends AbstractPlugin {
     window.addEventListener(listenOn, () => {
       try {
         const result = callback();
-        result instanceof Promsise
+        result instanceof Promise
           ? result.then((data) => this.dispatch(emitOn, result))
           : this.dispatch(emitOn, result);
       } catch (e) {
@@ -19,7 +19,7 @@ class Events extends AbstractPlugin {
   }
 
   dispatch(eventName, payload) {
-    window.dispatchEvent(eventName, new CustomEvent({ detail: payload }));
+    window.dispatchEvent(eventName, new window.CustomEvent({ detail: payload }));
   }
 }
 
