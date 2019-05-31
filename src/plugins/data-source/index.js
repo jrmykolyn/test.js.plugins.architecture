@@ -9,15 +9,22 @@ class DataSource extends AbstractPlugin {
     return ['EVENTS'];
   }
 
+  static get DEFAULTS() {
+    return {
+      alsoListenOn: [],
+    };
+  }
+
   constructor(opts = {}) {
     super();
 
-    this.opts = opts;
+    this.settings = this.resolveSettings(opts, DataSource.DEFAULTS);
   }
 
   register() {
     return [
       { listenOn: 'foo', emitOn: 'bar', callback: this.fetch },
+      ...this.settings.alsoListenOn,
     ];
   }
 
