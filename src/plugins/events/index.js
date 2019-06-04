@@ -1,4 +1,4 @@
-const AbstractPlugin = require('../../core/plugin');
+const AbstractPlugin = require('../../core/plugins');
 
 class Events extends AbstractPlugin {
   static get TYPE() {
