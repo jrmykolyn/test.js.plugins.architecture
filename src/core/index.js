@@ -1,6 +1,7 @@
 class Core {
   static get ORDER() {
     return [
+      'FILTER',
       'DATA_SOURCE',
       'EVENTS',
     ];
