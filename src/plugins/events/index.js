@@ -14,6 +14,7 @@ class Events extends AbstractPlugin {
           : this.dispatch(emitOn, this.core.applyFilters(listenOn, emitOn, result));
       } catch (e) {
         // TODO: Dispatch error-type event.
+        console.error(e);
       }
     });
   }
