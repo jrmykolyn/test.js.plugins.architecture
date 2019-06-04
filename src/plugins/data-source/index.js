@@ -12,6 +12,7 @@ class DataSource extends AbstractPlugin {
   static get DEFAULTS() {
     return {
       alsoListenOn: [],
+      onlyListenOn: [],
     };
   }
 
@@ -22,10 +23,9 @@ class DataSource extends AbstractPlugin {
   }
 
   register() {
-    return [
-      { listenOn: 'foo', emitOn: 'bar', callback: this.fetch },
-      ...this.settings.alsoListenOn,
-    ];
+    return this.settings.onlyListenOn.length
+      ? this.settings.onlyListenOn
+      : [{ listenOn: 'foo', emitOn: 'bar', callback: this.fetch }, ...this.settings.alsoListenOn];
   }
 
   fetch() {
