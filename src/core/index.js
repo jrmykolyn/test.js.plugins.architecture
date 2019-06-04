@@ -39,7 +39,7 @@ class Core {
     const missing = deps.filter((dep) => types.length && types.indexOf(dep) === -1);
     if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
 
-    return new mod(modOpts);
+    return new mod(this, modOpts);
   }
 
   getModuleTypes(modules) {

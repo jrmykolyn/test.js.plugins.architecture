@@ -16,8 +16,8 @@ class DataSource extends AbstractPlugin {
     };
   }
 
-  constructor(opts = {}) {
-    super();
+  constructor(core, opts = {}) {
+    super(core, opts);
 
     this.settings = this.resolveSettings(opts, DataSource.DEFAULTS);
   }
