@@ -10,7 +10,7 @@ global.window = {
   },
   dispatchEvent: (eventName, data) => {
     global.window.__lib__[eventName] = global.window.__lib__[eventName] || [];
-    global.window.__lib__[eventName].forEach((callback) => callback());
+    global.window.__lib__[eventName].forEach((callback) => callback(data));
   },
   CustomEvent: function(data = {}) {
     return data;
