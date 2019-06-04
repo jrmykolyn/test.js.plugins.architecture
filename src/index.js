@@ -30,7 +30,13 @@ const Events = require('./plugins/events');
  */
 const core = new Core({
   modules: [
-    [DataSource, { alsoListenOn: [{ listenOn: 'bar', emitOn: 'baz', callback: () => 'quux' }] }],
+    [
+      DataSource,
+      {
+        alsoListenOn: [{ listenOn: 'bar', emitOn: 'baz', callback: () => 'quux' }],
+        onlyListenOn: [{ listenOn: 'baz', emitOn: 'quux', callback: () => 'Hello, world!' }],
+      },
+    ],
     Events,
   ],
 });
