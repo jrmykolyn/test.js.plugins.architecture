@@ -23,6 +23,16 @@ class Core {
     });
   }
 
+  applyFilters(listenOn, emitOn, data) {
+    const filters = this.getModulesByType('FILTER');
+    const payload = { listenOn, emitOn, data };
+    return filters.length
+      ? filters.reduce((acc, filter) => {
+        return acc.done ? acc : filter.filter(acc)
+      }, payload)
+      : payload;
+  }
+
   instantiateModules(modules) {
     const moduleTypes = this.getModuleTypes(modules);
     return this.sortModulesByType(modules).map((module) => {
