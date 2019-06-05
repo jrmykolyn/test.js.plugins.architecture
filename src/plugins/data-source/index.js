@@ -1,5 +1,18 @@
 const AbstractPlugin = require('../../core/plugins');
 
+class Api {
+  fetch() {
+    // TEMP
+    return window.fetch('https://cvshealth-cors.groupbycloud.com/api/v1/search', {
+      method: 'POST',
+      body: JSON.stringify({
+        collection: 'productsLeaf',
+      }),
+    })
+      .then((response) => response.json());
+  }
+}
+
 class DataSource extends AbstractPlugin {
   static get TYPE() {
     return 'DATA_SOURCE';
@@ -20,6 +33,7 @@ class DataSource extends AbstractPlugin {
     super(core, opts);
 
     this.settings = this.resolveSettings(opts, DataSource.DEFAULTS);
+    this.api = new Api();
   }
 
   register() {
@@ -29,7 +43,10 @@ class DataSource extends AbstractPlugin {
   }
 
   fetch() {
-    // TODO
+    return new Promise((resolve, reject) => {
+      return this.api.fetch()
+        .then(resolve, reject);
+    });
   }
 }
 
