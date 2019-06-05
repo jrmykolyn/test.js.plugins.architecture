@@ -10,7 +10,9 @@ class Events extends AbstractPlugin {
       try {
         const result = this.core.hasCache(listenOn)
           ? this.core.getCache(listenOn)
-          : callback();
+          : typeof callback === 'function'
+            ? callback()
+            : callback.fn.call(callback.context);
 
         result instanceof Promise
           ? result.then((data) => this.dispatch(this.core.applyFilters(listenOn, emitOn, data)))
