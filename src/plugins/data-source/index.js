@@ -39,7 +39,10 @@ class DataSource extends AbstractPlugin {
   register() {
     return this.settings.onlyListenOn.length
       ? this.settings.onlyListenOn
-      : [{ listenOn: 'foo', emitOn: 'bar', callback: this.fetch }, ...this.settings.alsoListenOn];
+      : [
+          { listenOn: 'products:fetch', emitOn: 'products:supply', callback: { fn: this.fetch, context: this } },
+          ...this.settings.alsoListenOn,
+      ];
   }
 
   fetch() {
