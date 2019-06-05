@@ -1,7 +1,7 @@
 const AbstractPlugin = require('../../core/plugins');
 
 class Api {
-  fetch() {
+  fetch(data) {
     // TEMP
     return window.fetch('https://cvshealth-cors.groupbycloud.com/api/v1/search', {
       method: 'POST',
@@ -45,9 +45,9 @@ class DataSource extends AbstractPlugin {
       ];
   }
 
-  fetch() {
+  fetch(data) {
     return new Promise((resolve, reject) => {
-      return this.api.fetch()
+      return this.api.fetch(data)
         .then(resolve, reject);
     });
   }
