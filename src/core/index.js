@@ -23,6 +23,21 @@ class Core {
     });
   }
 
+  hasCache(key) {
+    const [cache] = this.getModulesByType('CACHE');
+    if (cache) return cache.has(key);
+  }
+
+  getCache(key) {
+    const [cache] = this.getModulesByType('CACHE');
+    if (cache) return cache.get(key);
+  }
+
+  putCache(key, value) {
+    const [cache] = this.getModulesByType('CACHE');
+    if (cache) return cache.put(key, value);
+  }
+
   applyFilters(listenOn, emitOn, data) {
     const filters = this.getModulesByType('FILTER');
     const payload = { listenOn, emitOn, data };
