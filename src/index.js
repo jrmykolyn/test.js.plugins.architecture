@@ -27,8 +27,9 @@ const Filter = require('./plugins/filter');
 const Cache = require('./plugins/cache');
 
 /**
- * Finally, we create a new instance of the Core class, passing in
- * an options object that contains the DataSource and Events plugins.
+ * After importing our plugin classes, we create a new instance of the Core class,
+ * passing in an options object that contains the DataSource, Events, Filter,
+ * and Cache plugins.
  */
 const core = new Core({
   modules: [
