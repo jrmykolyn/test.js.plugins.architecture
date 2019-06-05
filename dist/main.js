@@ -170,7 +170,7 @@ eval("const AbstractPlugin = __webpack_require__(/*! ../../core/plugins */ \"./s
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const AbstractFilterPlugin = __webpack_require__(/*! ../../core/plugins/filter */ \"./src/core/plugins/filter.js\");\n\nclass Filter extends AbstractFilterPlugin {\n  filter(payload) {\n    const { emitOn, data } = payload;\n    return emitOn === 'quux'\n      ? { ...payload, data: data.toUpperCase() }\n      : payload;\n  }\n}\n\nmodule.exports = Filter;\n\n\n//# sourceURL=webpack:///./src/plugins/filter/index.js?");
+eval("const AbstractFilterPlugin = __webpack_require__(/*! ../../core/plugins/filter */ \"./src/core/plugins/filter.js\");\n\nclass Filter extends AbstractFilterPlugin {\n  filter(payload) {\n    const { emitOn, data } = payload;\n\n    switch (emitOn) {\n      case 'products:supply': return { ...payload, data: this.transformResponse(data) };\n      default: return payload;\n    }\n  }\n\n  transformResponse(data) {\n    return {\n      ...data,\n      records: data.records.map((record) => {\n        return {\n          ...record,\n          allMeta: {\n            ...record.allMeta,\n            title: record.allMeta.title.toUpperCase(),\n          },\n        };\n      }),\n    };\n  }\n}\n\nmodule.exports = Filter;\n\n\n//# sourceURL=webpack:///./src/plugins/filter/index.js?");
 
 /***/ }),
 
