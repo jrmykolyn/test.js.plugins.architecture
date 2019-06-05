@@ -25,7 +25,7 @@ class Events extends AbstractPlugin {
   dispatch(payload) {
     const { listenOn, emitOn, data } = payload;
     this.core.putCache(listenOn, data);
-    window.dispatchEvent(emitOn, new window.CustomEvent({ detail: payload }));
+    window.dispatchEvent(new window.CustomEvent(emitOn, { detail: payload }));
   }
 }
 
