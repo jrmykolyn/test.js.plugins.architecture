@@ -6,5 +6,13 @@
   </head>
   <body>
     <script src="../dist/main.js"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('products:supply', (e) => {
+          const { detail = {} } = e;
+          console.log(detail);
+        });
+      });
+    </script>
   </body>
 </html>
