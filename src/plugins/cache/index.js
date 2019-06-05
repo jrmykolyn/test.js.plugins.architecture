@@ -1,4 +1,4 @@
-const AbstractPlugin = require('../../core/plugins');
+const { AbstractPlugin } = require('../../core/plugins');
 
 class Cache extends AbstractPlugin {
   static get TYPE() {

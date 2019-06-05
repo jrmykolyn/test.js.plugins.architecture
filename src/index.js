@@ -1,7 +1,7 @@
 /**
  * First we import the Core and plugin-type modules.
  */
-const Core = require('./core');
+const { Core } = require('./core');
 const DataSource = require('./plugins/data-source');
 const Events = require('./plugins/events');
 const Filter = require('./plugins/filter');

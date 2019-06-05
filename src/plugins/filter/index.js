@@ -1,4 +1,4 @@
-const AbstractFilterPlugin = require('../../core/plugins/filter');
+const { AbstractFilterPlugin } = require('../../core/plugins');
 
 class Filter extends AbstractFilterPlugin {
   filter(payload) {

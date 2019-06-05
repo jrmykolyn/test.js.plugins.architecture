@@ -1,4 +1,4 @@
-const AbstractPlugin = require('.');
+const AbstractPlugin = require('./abstract');
 
 class AbstractFilterPlugin extends AbstractPlugin {
   static get TYPE() {
