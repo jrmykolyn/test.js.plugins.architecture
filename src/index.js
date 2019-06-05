@@ -45,3 +45,20 @@ const core = new Core({
     Cache,
   ],
 });
+
+/**
+ * Finally, we register and dispatch a series of events to demonstrate that
+ * the Logic layer is working as expected.
+ */
+const REGISTER = ['bar', 'baz', 'quux'];
+const DISPATCH = ['foo', 'bar', 'baz'];
+
+REGISTER.forEach((eventName) => {
+  window.addEventListener(eventName, (e) => {
+    console.log(`__ RECEIVED ${eventName}`, e);
+  });
+});
+
+DISPATCH.forEach((eventName) => {
+  window.dispatchEvent(eventName, {});
+});
