@@ -24,6 +24,7 @@ const Core = require('./core');
 const DataSource = require('./plugins/data-source');
 const Events = require('./plugins/events');
 const Filter = require('./plugins/filter');
+const Cache = require('./plugins/cache');
 
 /**
  * Finally, we create a new instance of the Core class, passing in
@@ -40,5 +41,6 @@ const core = new Core({
     ],
     Events,
     Filter,
+    Cache,
   ],
 });
