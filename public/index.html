@@ -5,7 +5,13 @@
     <title>Test - JS - Plugins - Architecture</title>
   </head>
   <body>
+    <sfx-search-box></sfx-search-box>
+    <sfx-products></sfx-products>
     <script src="../dist/main.js"></script>
+    <script>
+      window.customElements.define('sfx-search-box', window.__COMPONENTS__.SearchBox);
+      window.customElements.define('sfx-products', window.__COMPONENTS__.Products);
+    </script>
     <script>
       window.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('products:supply', (e) => {
