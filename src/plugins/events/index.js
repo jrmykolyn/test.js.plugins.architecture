@@ -8,10 +8,13 @@ class Events extends AbstractPlugin {
   register(listenOn, emitOn, callback) {
     window.addEventListener(listenOn, () => {
       try {
-        const result = callback();
+        const result = this.core.hasCache(listenOn)
+          ? this.core.getCache(listenOn)
+          : callback();
+
         result instanceof Promise
-          ? result.then((data) => this.dispatch(emitOn, this.core.applyFilters(listenOn, emitOn, result)))
-          : this.dispatch(emitOn, this.core.applyFilters(listenOn, emitOn, result));
+          ? result.then((data) => this.dispatch(this.core.applyFilters(listenOn, emitOn, result)))
+          : this.dispatch(this.core.applyFilters(listenOn, emitOn, result));
       } catch (e) {
         // TODO: Dispatch error-type event.
         console.error(e);
@@ -19,8 +22,10 @@ class Events extends AbstractPlugin {
     });
   }
 
-  dispatch(eventName, payload) {
-    window.dispatchEvent(eventName, new window.CustomEvent({ detail: payload }));
+  dispatch(payload) {
+    const { listenOn, emitOn, data } = payload;
+    this.core.putCache(listenOn, data);
+    window.dispatchEvent(emitOn, new window.CustomEvent({ detail: payload }));
   }
 }
 
