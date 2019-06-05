@@ -21,7 +21,6 @@ const core = window.__CORE__ = new Core({
       DataSource,
       {
         alsoListenOn: [{ listenOn: 'bar', emitOn: 'baz', callback: () => 'quux' }],
-        onlyListenOn: [{ listenOn: 'baz', emitOn: 'quux', callback: () => 'Hello, world!' }],
       },
     ],
     Events,
