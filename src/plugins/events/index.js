@@ -13,7 +13,7 @@ class Events extends AbstractPlugin {
           : callback();
 
         result instanceof Promise
-          ? result.then((data) => this.dispatch(this.core.applyFilters(listenOn, emitOn, result)))
+          ? result.then((data) => this.dispatch(this.core.applyFilters(listenOn, emitOn, data)))
           : this.dispatch(this.core.applyFilters(listenOn, emitOn, result));
       } catch (e) {
         // TODO: Dispatch error-type event.
