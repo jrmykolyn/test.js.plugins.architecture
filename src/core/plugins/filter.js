@@ -1,8 +1,9 @@
+const { PluginTypes } = require('../utils');
 const AbstractPlugin = require('./abstract');
 
 class AbstractFilterPlugin extends AbstractPlugin {
   static get TYPE() {
-    return 'FILTER';
+    return PluginTypes.FILTER;
   }
 
   filter() {

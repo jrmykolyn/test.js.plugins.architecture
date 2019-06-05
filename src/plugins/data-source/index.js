@@ -1,3 +1,4 @@
+const { PluginTypes } = require('../../core');
 const { AbstractPlugin } = require('../../core/plugins');
 
 class Api {
@@ -15,11 +16,11 @@ class Api {
 
 class DataSource extends AbstractPlugin {
   static get TYPE() {
-    return 'DATA_SOURCE';
+    return PluginTypes.DATA_SOURCE;
   }
 
   static get DEPENDENCIES() {
-    return ['EVENTS'];
+    return [PluginTypes.EVENTS];
   }
 
   static get DEFAULTS() {

@@ -1,8 +1,9 @@
+const { PluginTypes } = require('../../core');
 const { AbstractPlugin } = require('../../core/plugins');
 
 class Events extends AbstractPlugin {
   static get TYPE() {
-    return 'EVENTS';
+    return PluginTypes.EVENTS;
   }
 
   register(listenOn, emitOn, callback) {

@@ -1,3 +1,5 @@
+const { PluginTypes } = require('./utils');
+
 class Core {
   static get ORDER() {
     return [
@@ -14,8 +16,8 @@ class Core {
     this.modules = this.instantiateModules(modules);
 
     // Register event listeners.
-    const [eventsModules] = this.getModulesByType('EVENTS');
-    const dataSourceModules = this.getModulesByType('DATA_SOURCE');
+    const [eventsModules] = this.getModulesByType(PluginTypes.EVENTS);
+    const dataSourceModules = this.getModulesByType(PluginTypes.DATA_SOURCE);
     dataSourceModules.forEach((moduleInstance) => {
       moduleInstance.register().forEach(({ listenOn, emitOn, callback }) => {
         eventsModules.register(listenOn, emitOn, callback);
@@ -24,22 +26,22 @@ class Core {
   }
 
   hasCache(key) {
-    const [cache] = this.getModulesByType('CACHE');
+    const [cache] = this.getModulesByType(PluginTypes.CACHE);
     if (cache) return cache.has(key);
   }
 
   getCache(key) {
-    const [cache] = this.getModulesByType('CACHE');
+    const [cache] = this.getModulesByType(PluginTypes.CACHE);
     if (cache) return cache.get(key);
   }
 
   putCache(key, value) {
-    const [cache] = this.getModulesByType('CACHE');
+    const [cache] = this.getModulesByType(PluginTypes.CACHE);
     if (cache) return cache.put(key, value);
   }
 
   applyFilters(listenOn, emitOn, data) {
-    const filters = this.getModulesByType('FILTER');
+    const filters = this.getModulesByType(PluginTypes.FILTER);
     const payload = { listenOn, emitOn, data };
     return filters.length
       ? filters.reduce((acc, filter) => {

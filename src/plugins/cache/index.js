@@ -1,8 +1,9 @@
+const { PluginTypes } = require('../../core');
 const { AbstractPlugin } = require('../../core/plugins');
 
 class Cache extends AbstractPlugin {
   static get TYPE() {
-    return 'CACHE';
+    return PluginTypes.CACHE;
   }
 
   constructor(...args) {
