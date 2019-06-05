@@ -13,16 +13,23 @@ class Cache extends AbstractPlugin {
   }
 
   get(key) {
-    const { payload } = this.cache[key] || {};
+    const k = this.normalizeKey(key);
+    const { payload } = this.cache[k] || {};
     return payload;
   }
 
   put(key, value) {
-    this.cache[key] = { expiresAt: new Date().getTime() + 10000, payload: value };
+    const k = this.normalizeKey(key);
+    this.cache[k] = { expiresAt: new Date().getTime() + 10000, payload: value };
   }
 
   has(key) {
-    return this.cache[key] && this.cache[key].expiresAt >= new Date().getTime();
+    const k = this.normalizeKey(key);
+    return this.cache[k] && this.cache[k].expiresAt >= new Date().getTime();
+  }
+
+  normalizeKey(key) {
+    return JSON.stringify(key);
   }
 }
 
