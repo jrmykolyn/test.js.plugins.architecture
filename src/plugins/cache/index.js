@@ -11,22 +11,17 @@ class Cache extends AbstractPlugin {
     this.cache = {};
   }
 
-  get(payload) {
-    const { listenOn, data } = payload;
-
-    if (!this.has(payload)) this.put(payload);
-
-    return this.cache[listenOn].payload;
+  get(key) {
+    const { payload } = this.cache[key] || {};
+    return payload;
   }
 
-  put(payload) {
-    const { listenOn } = payload;
-    this.cache[listenOn] = { expiresAt: new Date().getTime() + 10000, payload };
+  put(key, value) {
+    this.cache[key] = { expiresAt: new Date().getTime() + 10000, payload: value };
   }
 
-  has(payload) {
-    const { listenOn } = payload;
-    return !this.cache[listenOn] || this.cache[listenOn].expiresAt < new Date().getTime();
+  has(key) {
+    return this.cache[key] && this.cache[key].expiresAt >= new Date().getTime();
   }
 }
 
