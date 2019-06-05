@@ -1,3 +1,4 @@
+const { Events } = require('../../core');
 const { AbstractFilterPlugin } = require('../../core/plugins');
 
 class Filter extends AbstractFilterPlugin {
@@ -5,7 +6,7 @@ class Filter extends AbstractFilterPlugin {
     const { emitOn, data } = payload;
 
     switch (emitOn) {
-      case 'products:supply': return { ...payload, data: this.transformResponse(data) };
+      case Events.PRODUCTS_SUPPLY: return { ...payload, data: this.transformResponse(data) };
       default: return payload;
     }
   }

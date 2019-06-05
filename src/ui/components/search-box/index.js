@@ -1,3 +1,5 @@
+const { Events } = require('../../../core');
+
 const template = document.createElement('template');
 template.innerHTML = `
   <input type="text" />
@@ -24,7 +26,7 @@ class SearchBox extends HTMLElement {
 
   search() {
     const query = this.root.querySelector('input').value;
-    if (query && query.length >= 3) window.dispatchEvent(new CustomEvent('products:fetch', { detail: { query } }));
+    if (query && query.length >= 3) window.dispatchEvent(new CustomEvent(Events.PRODUCTS_FETCH, { detail: { query } }));
   }
 }
 

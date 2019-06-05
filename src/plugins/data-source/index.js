@@ -1,4 +1,4 @@
-const { PluginTypes } = require('../../core');
+const { Events, PluginTypes } = require('../../core');
 const { AbstractPlugin } = require('../../core/plugins');
 
 class Api {
@@ -41,7 +41,7 @@ class DataSource extends AbstractPlugin {
     return this.settings.onlyListenOn.length
       ? this.settings.onlyListenOn
       : [
-          { listenOn: 'products:fetch', emitOn: 'products:supply', callback: { fn: this.fetch, context: this } },
+          { listenOn: Events.PRODUCTS_FETCH, emitOn: Events.PRODUCTS_SUPPLY, callback: { fn: this.fetch, context: this } },
           ...this.settings.alsoListenOn,
       ];
   }

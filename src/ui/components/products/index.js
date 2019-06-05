@@ -1,3 +1,5 @@
+const { Events } = require('../../../core');
+
 const template = document.createElement('template');
 template.innerHTML = `
   <section></section>
@@ -15,11 +17,11 @@ class Products extends HTMLElement {
   }
 
   connectedCallback() {
-    window.addEventListener('products:supply', this.updateProducts);
+    window.addEventListener(Events.PRODUCTS_SUPPLY, this.updateProducts);
   }
 
   disconnectedCallback() {
-    window.removeEventListener('products:supply', this.updateProducts);
+    window.removeEventListener(Events.PRODUCTS_SUPPLY, this.updateProducts);
   }
 
   updateProducts(e) {

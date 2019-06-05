@@ -5,6 +5,12 @@ const PluginTypes = {
   FILTER: 'sfx:plugin:filter',
 };
 
+const Events = {
+  PRODUCTS_FETCH: 'sfx:products:fetch',
+  PRODUCTS_SUPPLY: 'sfx:products:supply',
+};
+
 module.exports = {
+  Events,
   PluginTypes,
 };
