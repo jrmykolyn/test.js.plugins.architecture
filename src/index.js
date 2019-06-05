@@ -8,6 +8,11 @@ const Filter = require('./plugins/filter');
 const Cache = require('./plugins/cache');
 
 /**
+ * Then we import and expose our dictionary of Web Components.
+ */
+const Components = window.__COMPONENTS__ = require('./ui').Components;
+
+/**
  * After importing our plugin classes, we create a new instance of the Core class,
  * passing in an options object that contains the DataSource, Events, Filter,
  * and Cache plugins.
