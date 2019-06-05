@@ -2,10 +2,10 @@ const AbstractPlugin = require('../../core/plugins');
 
 class Api {
   fetch(data) {
-    // TEMP
     return window.fetch('https://cvshealth-cors.groupbycloud.com/api/v1/search', {
       method: 'POST',
       body: JSON.stringify({
+        ...data,
         collection: 'productsLeaf',
       }),
     })
