@@ -6,13 +6,14 @@ class Events extends AbstractPlugin {
   }
 
   register(listenOn, emitOn, callback) {
-    window.addEventListener(listenOn, () => {
+    window.addEventListener(listenOn, (e) => {
       try {
+        const { detail } = e;
         const result = this.core.hasCache(listenOn)
           ? this.core.getCache(listenOn)
           : typeof callback === 'function'
-            ? callback()
-            : callback.fn.call(callback.context);
+            ? callback(detail)
+            : callback.fn.call(callback.context, detail);
 
         result instanceof Promise
           ? result.then((data) => this.dispatch(this.core.applyFilters(listenOn, emitOn, data)))
