@@ -126,7 +126,7 @@ eval("class AbstractPlugin {\n  static get DEPENDENCIES() {\n    return [];\n  }
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("/**\n * First we import the Core and plugin-type modules.\n */\nconst Core = __webpack_require__(/*! ./core */ \"./src/core/index.js\");\nconst DataSource = __webpack_require__(/*! ./plugins/data-source */ \"./src/plugins/data-source/index.js\");\nconst Events = __webpack_require__(/*! ./plugins/events */ \"./src/plugins/events/index.js\");\nconst Filter = __webpack_require__(/*! ./plugins/filter */ \"./src/plugins/filter/index.js\");\nconst Cache = __webpack_require__(/*! ./plugins/cache */ \"./src/plugins/cache/index.js\");\n\n/**\n * After importing our plugin classes, we create a new instance of the Core class,\n * passing in an options object that contains the DataSource, Events, Filter,\n * and Cache plugins.\n *\n * We also expose the Core instance via the `__CORE__` property of the `window`\n * object.\n */\nconst core = window.__CORE__ = new Core({\n  modules: [\n    [\n      DataSource,\n      {\n        alsoListenOn: [{ listenOn: 'bar', emitOn: 'baz', callback: () => 'quux' }],\n      },\n    ],\n    Events,\n    Filter,\n    Cache,\n  ],\n});\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("/**\n * First we import the Core and plugin-type modules.\n */\nconst Core = __webpack_require__(/*! ./core */ \"./src/core/index.js\");\nconst DataSource = __webpack_require__(/*! ./plugins/data-source */ \"./src/plugins/data-source/index.js\");\nconst Events = __webpack_require__(/*! ./plugins/events */ \"./src/plugins/events/index.js\");\nconst Filter = __webpack_require__(/*! ./plugins/filter */ \"./src/plugins/filter/index.js\");\nconst Cache = __webpack_require__(/*! ./plugins/cache */ \"./src/plugins/cache/index.js\");\n\n/**\n * Then we import and expose our dictionary of Web Components.\n */\nconst Components = window.__COMPONENTS__ = __webpack_require__(/*! ./ui */ \"./src/ui/index.js\").Components;\n\n/**\n * After importing our plugin classes, we create a new instance of the Core class,\n * passing in an options object that contains the DataSource, Events, Filter,\n * and Cache plugins.\n *\n * We also expose the Core instance via the `__CORE__` property of the `window`\n * object.\n */\nconst core = window.__CORE__ = new Core({\n  modules: [\n    [\n      DataSource,\n      {\n        alsoListenOn: [{ listenOn: 'bar', emitOn: 'baz', callback: () => 'quux' }],\n      },\n    ],\n    Events,\n    Filter,\n    Cache,\n  ],\n});\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
@@ -148,7 +148,7 @@ eval("const AbstractPlugin = __webpack_require__(/*! ../../core/plugins */ \"./s
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const AbstractPlugin = __webpack_require__(/*! ../../core/plugins */ \"./src/core/plugins/index.js\");\n\nclass Api {\n  fetch(data) {\n    // TEMP\n    return window.fetch('https://cvshealth-cors.groupbycloud.com/api/v1/search', {\n      method: 'POST',\n      body: JSON.stringify({\n        collection: 'productsLeaf',\n      }),\n    })\n      .then((response) => response.json());\n  }\n}\n\nclass DataSource extends AbstractPlugin {\n  static get TYPE() {\n    return 'DATA_SOURCE';\n  }\n\n  static get DEPENDENCIES() {\n    return ['EVENTS'];\n  }\n\n  static get DEFAULTS() {\n    return {\n      alsoListenOn: [],\n      onlyListenOn: [],\n    };\n  }\n\n  constructor(core, opts = {}) {\n    super(core, opts);\n\n    this.settings = this.resolveSettings(opts, DataSource.DEFAULTS);\n    this.api = new Api();\n  }\n\n  register() {\n    return this.settings.onlyListenOn.length\n      ? this.settings.onlyListenOn\n      : [\n          { listenOn: 'products:fetch', emitOn: 'products:supply', callback: { fn: this.fetch, context: this } },\n          ...this.settings.alsoListenOn,\n      ];\n  }\n\n  fetch(data) {\n    return new Promise((resolve, reject) => {\n      return this.api.fetch(data)\n        .then(resolve, reject);\n    });\n  }\n}\n\nmodule.exports = DataSource;\n\n\n//# sourceURL=webpack:///./src/plugins/data-source/index.js?");
+eval("const AbstractPlugin = __webpack_require__(/*! ../../core/plugins */ \"./src/core/plugins/index.js\");\n\nclass Api {\n  fetch(data) {\n    return window.fetch('https://cvshealth-cors.groupbycloud.com/api/v1/search', {\n      method: 'POST',\n      body: JSON.stringify({\n        ...data,\n        collection: 'productsLeaf',\n      }),\n    })\n      .then((response) => response.json());\n  }\n}\n\nclass DataSource extends AbstractPlugin {\n  static get TYPE() {\n    return 'DATA_SOURCE';\n  }\n\n  static get DEPENDENCIES() {\n    return ['EVENTS'];\n  }\n\n  static get DEFAULTS() {\n    return {\n      alsoListenOn: [],\n      onlyListenOn: [],\n    };\n  }\n\n  constructor(core, opts = {}) {\n    super(core, opts);\n\n    this.settings = this.resolveSettings(opts, DataSource.DEFAULTS);\n    this.api = new Api();\n  }\n\n  register() {\n    return this.settings.onlyListenOn.length\n      ? this.settings.onlyListenOn\n      : [\n          { listenOn: 'products:fetch', emitOn: 'products:supply', callback: { fn: this.fetch, context: this } },\n          ...this.settings.alsoListenOn,\n      ];\n  }\n\n  fetch(data) {\n    return new Promise((resolve, reject) => {\n      return this.api.fetch(data)\n        .then(resolve, reject);\n    });\n  }\n}\n\nmodule.exports = DataSource;\n\n\n//# sourceURL=webpack:///./src/plugins/data-source/index.js?");
 
 /***/ }),
 
@@ -171,6 +171,50 @@ eval("const AbstractPlugin = __webpack_require__(/*! ../../core/plugins */ \"./s
 /***/ (function(module, exports, __webpack_require__) {
 
 eval("const AbstractFilterPlugin = __webpack_require__(/*! ../../core/plugins/filter */ \"./src/core/plugins/filter.js\");\n\nclass Filter extends AbstractFilterPlugin {\n  filter(payload) {\n    const { emitOn, data } = payload;\n    return emitOn === 'quux'\n      ? { ...payload, data: data.toUpperCase() }\n      : payload;\n  }\n}\n\nmodule.exports = Filter;\n\n\n//# sourceURL=webpack:///./src/plugins/filter/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/index.js":
+/*!************************************!*\
+  !*** ./src/ui/components/index.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = {\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/products/index.js":
+/*!*********************************************!*\
+  !*** ./src/ui/components/products/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const template = document.createElement('template');\ntemplate.innerHTML = `\n  <section></section>\n`;\n\nclass Products extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n\n    // Bind.\n    this.updateProducts = this.updateProducts.bind(this);\n  }\n\n  connectedCallback() {\n    window.addEventListener('products:supply', this.updateProducts);\n  }\n\n  disconnectedCallback() {\n    window.removeEventListener('products:supply', this.updateProducts);\n  }\n\n  updateProducts(e) {\n    const target = this.root.querySelector('section');\n    target.innerHTML = '';\n    e.detail.data.records.forEach((product) => {\n      target.appendChild(this.renderProduct(product));\n    });\n  }\n\n  renderProduct(product) {\n    const elem = document.createElement('p');\n    elem.innerHTML = product.allMeta.title;\n    return elem;\n  }\n}\n\nmodule.exports = Products;\n\n\n//# sourceURL=webpack:///./src/ui/components/products/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/search-box/index.js":
+/*!***********************************************!*\
+  !*** ./src/ui/components/search-box/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const template = document.createElement('template');\ntemplate.innerHTML = `\n  <input type=\"text\" />\n`;\n\nclass SearchBox extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n\n    // Bind.\n    this.search = this.search.bind(this);\n  }\n\n  connectedCallback() {\n    this.root.querySelector('input').addEventListener('keyup', this.search);\n  }\n\n  disconnectedCallback() {\n    this.root.querySelector('input').removeEventListener('keyup', this.search);\n  }\n\n  search() {\n    const query = this.root.querySelector('input').value;\n    if (query && query.length >= 3) window.dispatchEvent(new CustomEvent('products:fetch', { detail: { query } }));\n  }\n}\n\nmodule.exports = SearchBox;\n\n\n//# sourceURL=webpack:///./src/ui/components/search-box/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/index.js":
+/*!*************************!*\
+  !*** ./src/ui/index.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = {\n  Components: __webpack_require__(/*! ./components */ \"./src/ui/components/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/index.js?");
 
 /***/ })
 
