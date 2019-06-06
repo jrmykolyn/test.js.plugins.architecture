@@ -62,26 +62,6 @@ class Core {
   }
 
   /**
-   * The `*Cache()` methods are thin wrappers around a `CACHE`-type plugin,
-   * each of which checks for the presence of a `CACHE` plugin before
-   * invoking the corresponding method.
-   */
-  hasCache(key) {
-    const [cache] = this.getPluginsByType(PluginTypes.CACHE);
-    if (cache) return cache.has(key);
-  }
-
-  getCache(key) {
-    const [cache] = this.getPluginsByType(PluginTypes.CACHE);
-    if (cache) return cache.get(key);
-  }
-
-  putCache(key, value) {
-    const [cache] = this.getPluginsByType(PluginTypes.CACHE);
-    if (cache) return cache.put(key, value);
-  }
-
-  /**
    * The `applyFilters()` method is responsible for transforming event-related
    * payloads before they are provided as arguments to the corresponding callback
    * functions.
