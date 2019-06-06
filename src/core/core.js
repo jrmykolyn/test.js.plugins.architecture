@@ -52,11 +52,11 @@ class Core {
      * accepts the data returned by the `DATA_SOURCE` plugins' `register()`,
      * and registers a environment-specific event listeners.
      */
-    const [eventsplugin] = this.getPluginsByType(PluginTypes.EVENTS);
-    const dataSourceplugins = this.getPluginsByType(PluginTypes.DATA_SOURCE);
-    dataSourceplugins.forEach((pluginInstance) => {
+    const [eventsPlugin] = this.getPluginsByType(PluginTypes.EVENTS);
+    const dataSourcePlugins = this.getPluginsByType(PluginTypes.DATA_SOURCE);
+    dataSourcePlugins.forEach((pluginInstance) => {
       pluginInstance.register().forEach(({ listenOn, emitOn, callback }) => {
-        eventsplugin.register(listenOn, emitOn, callback);
+        eventsPlugin.register(listenOn, emitOn, callback);
       });
     });
   }
