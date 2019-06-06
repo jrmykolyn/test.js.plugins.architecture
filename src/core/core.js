@@ -144,8 +144,9 @@ class Core {
    * The sorting criteria is defined by the `ORDER` property of the Core class.
    */
   sortPluginsByType(plugins) {
-    return plugins.slice(0).sort((a, b) => {
-      // TODO: Refactor.
+    return plugins.slice(0).sort((maybeA, maybeB) => {
+      const a = this.extractPlugin(maybeA);
+      const b = this.extractPlugin(maybeB);
       const aIndex = Core.ORDER.indexOf(a.TYPE);
       const bIndex = Core.ORDER.indexOf(b.TYPE);
       return aIndex - bIndex;
