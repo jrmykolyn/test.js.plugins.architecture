@@ -52,7 +52,7 @@ class Core {
      * accepts the data returned by the `DATA_SOURCE` plugins' `register()`,
      * and registers a environment-specific event listeners.
      */
-    const [eventsModules] = this.getModulesByType(PluginTypes.EVENTS);
+    const [eventsModule] = this.getModulesByType(PluginTypes.EVENTS);
     const dataSourceModules = this.getModulesByType(PluginTypes.DATA_SOURCE);
     dataSourceModules.forEach((moduleInstance) => {
       moduleInstance.register().forEach(({ listenOn, emitOn, callback }) => {
