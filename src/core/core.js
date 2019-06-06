@@ -104,9 +104,8 @@ class Core {
    * single plugin, which it receives alongside an array of valid plugin types.
    */
   instantiatePlugin(plugin, types = []) {
-    const isArr = Array.isArray(plugin);
-    const mod = isArr ? plugin[0] : plugin;
-    const modOpts = isArr ? plugin[1] : undefined;
+    const mod = this.extractPlugin(plugin);
+    const modOpts = this.extractPluginOpts(plugin);
 
     const deps = mod.DEPENDENCIES;
 
@@ -114,6 +113,14 @@ class Core {
     if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
 
     return new mod(this, modOpts);
+  }
+
+  extractPlugin(maybePlugin) {
+    return Array.isArray(maybePlugin) ? maybePlugin[0] : maybePlugin;
+  }
+
+  extractPluginOpts(maybePlugin) {
+    return Array.isArray(maybePlugin) ? maybePlugin[1] : undefined;
   }
 
   /**
