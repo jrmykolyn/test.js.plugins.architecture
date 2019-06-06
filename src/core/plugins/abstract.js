@@ -1,3 +1,9 @@
+/**
+ * The `AbstractPlugin` class provides the foundation for all plugin-type
+ * classes. This class defines default values for a series of class and
+ * instance properties, exposes common/shared methods, and specifies default
+ * instantiation behaviour via the constructor method.
+ */
 class AbstractPlugin {
   static get DEPENDENCIES() {
     return [];
