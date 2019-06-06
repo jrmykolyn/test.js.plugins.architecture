@@ -33,7 +33,7 @@ window.__COMPONENTS__ = Components;
  * second member to be an options object.
  */
 const core = window.__CORE__ = new Core({
-  modules: [
+  plugins: [
     [
       DataSource,
       {

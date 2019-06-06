@@ -27,21 +27,21 @@ class Core {
    * are required for the current session.
    */
   constructor(opts = {}) {
-    const { modules = [] } = opts;
+    const { plugins = [] } = opts;
 
     /**
      * The primary role of the constructor function is to instantiate any
      * plugins received via the options object. Core delegates this responsibility
-     * to the `instantiateModules()` method, which receives an array of
-     * modules as its sole argument. This method returns an array of module
-     * instances, which are stored as the `modules` instance property.
+     * to the `instantiatePlugins()` method, which receives an array of
+     * plugins as its sole argument. This method returns an array of plugin
+     * instances, which are stored as the `plugins` instance property.
      */
-    this.modules = this.instantiateModules(modules);
+    this.plugins = this.instantiatePlugins(plugins);
 
     /**
      * Additionally, the Core instance is responsible for facilitating
-     * communication between modules, including the `DATA_SOURCE` and
-     * `EVENTS`modules.
+     * communication between plugins, including the `DATA_SOURCE` and
+     * `EVENTS`plugins.
      *
      * `DATA_SOURCE` plugins expose a `register()` method, which returns
      * an array of objects, each of which contains an event to 'listen'
@@ -52,11 +52,11 @@ class Core {
      * accepts the data returned by the `DATA_SOURCE` plugins' `register()`,
      * and registers a environment-specific event listeners.
      */
-    const [eventsModule] = this.getModulesByType(PluginTypes.EVENTS);
-    const dataSourceModules = this.getModulesByType(PluginTypes.DATA_SOURCE);
-    dataSourceModules.forEach((moduleInstance) => {
-      moduleInstance.register().forEach(({ listenOn, emitOn, callback }) => {
-        eventsModule.register(listenOn, emitOn, callback);
+    const [eventsplugin] = this.getPluginsByType(PluginTypes.EVENTS);
+    const dataSourceplugins = this.getPluginsByType(PluginTypes.DATA_SOURCE);
+    dataSourceplugins.forEach((pluginInstance) => {
+      pluginInstance.register().forEach(({ listenOn, emitOn, callback }) => {
+        eventsplugin.register(listenOn, emitOn, callback);
       });
     });
   }
@@ -67,17 +67,17 @@ class Core {
    * invoking the corresponding method.
    */
   hasCache(key) {
-    const [cache] = this.getModulesByType(PluginTypes.CACHE);
+    const [cache] = this.getPluginsByType(PluginTypes.CACHE);
     if (cache) return cache.has(key);
   }
 
   getCache(key) {
-    const [cache] = this.getModulesByType(PluginTypes.CACHE);
+    const [cache] = this.getPluginsByType(PluginTypes.CACHE);
     if (cache) return cache.get(key);
   }
 
   putCache(key, value) {
-    const [cache] = this.getModulesByType(PluginTypes.CACHE);
+    const [cache] = this.getPluginsByType(PluginTypes.CACHE);
     if (cache) return cache.put(key, value);
   }
 
@@ -95,7 +95,7 @@ class Core {
    * payload will not be modified.
    */
   applyFilters(listenOn, emitOn, data) {
-    const filters = this.getModulesByType(PluginTypes.FILTER);
+    const filters = this.getPluginsByType(PluginTypes.FILTER);
     const payload = { listenOn, emitOn, data };
     return filters.length
       ? filters.reduce((acc, filter) => {
@@ -105,28 +105,28 @@ class Core {
   }
 
   /**
-   * The `instantiateModules()` method is responsible for instantiating each
+   * The `instantiatePlugins()` method is responsible for instantiating each
    * plugin received by Core via the options object. In order to resolve
    * dependencies, plugin classes are sorted prior to instantiation.
    *
    * This method also defines an array of plugin types, which are extracted
    * from the plugin classes themselves. This array is passed to the underlying
-   * `instantiateModule()` method.
+   * `instantiatePlugin()` method.
    */
-  instantiateModules(modules) {
-    const moduleTypes = this.getModuleTypes(modules);
-    return this.sortModulesByType(modules).map((module) => {
-      return this.instantiateModule(module, moduleTypes);
+  instantiatePlugins(plugins) {
+    const pluginTypes = this.getPluginTypes(plugins);
+    return this.sortPluginsByType(plugins).map((plugin) => {
+      return this.instantiatePlugin(plugin, pluginTypes);
     });
   }
 
-  /** The `instantiateModule()` method is responsible for instantiating a
+  /** The `instantiatePlugin()` method is responsible for instantiating a
    * single plugin, which it receives alongside an array of valid plugin types.
    */
-  instantiateModule(module, types = []) {
-    const isArr = Array.isArray(module);
-    const mod = isArr ? module[0] : module;
-    const modOpts = isArr ? module[1] : undefined;
+  instantiatePlugin(plugin, types = []) {
+    const isArr = Array.isArray(plugin);
+    const mod = isArr ? plugin[0] : plugin;
+    const modOpts = isArr ? plugin[1] : undefined;
 
     const deps = mod.DEPENDENCIES;
 
@@ -137,27 +137,27 @@ class Core {
   }
 
   /**
-   * The `getModuleTypes()` utility method extracts the plugin type from each plugin
-   * provided via the `modules` array.
+   * The `getPluginTypes()` utility method extracts the plugin type from each plugin
+   * provided via the `plugins` array.
    */
-  getModuleTypes(modules) {
-    return modules.map((module) => module.TYPE).filter((type, i, arr) => i === arr.indexOf(type));
+  getPluginTypes(plugins) {
+    return plugins.map((plugin) => plugin.TYPE).filter((type, i, arr) => i === arr.indexOf(type));
   }
 
   /**
-   * The `getModulesByType()` utility method returns all plugins that have been instantiated,
+   * The `getPluginsByType()` utility method returns all plugins that have been instantiated,
    * and which match the type provided.
    */
-  getModulesByType(type) {
-    return this.modules.filter((module) => module.constructor.TYPE === type);
+  getPluginsByType(type) {
+    return this.plugins.filter((plugin) => plugin.constructor.TYPE === type);
   }
 
   /**
-   * The `sortModulesByType()` utility method returns an array of plugins sorted by type.
+   * The `sortPluginsByType()` utility method returns an array of plugins sorted by type.
    * The sorting criteria is defined by the `ORDER` property of the Core class.
    */
-  sortModulesByType(modules) {
-    return modules.slice(0).sort((a, b) => {
+  sortPluginsByType(plugins) {
+    return plugins.slice(0).sort((a, b) => {
       // TODO: Refactor.
       const aIndex = Core.ORDER.indexOf(a.TYPE);
       const bIndex = Core.ORDER.indexOf(b.TYPE);
