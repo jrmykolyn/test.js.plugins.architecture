@@ -112,15 +112,28 @@ class Core {
 
   initializePlugin(plugin) {
     const types = this.plugins.map((plugin) => plugin.__TYPE__);
-    const missing = plugin.__DEPENDENCIES__.filter((dep) => types.length && types.indexOf(dep) === -1);
+    const missing = plugin.__DEPENDENCIES__.filter(({ type }) => types.length && types.indexOf(type) === -1);
     if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
 
-    const deps = plugin.__DEPENDENCIES__
-        .map((dep) => this.plugins.find((el) => el.__TYPE__ === dep))
-        .reduce((acc, dep) => ({ ...acc, [dep.constructor.name]: dep}), {});
+    const deps = [...plugin.__DEPENDENCIES__, ...plugin.__OPTIONAL__]
+        .map((depDesc) => ({
+          ...depDesc,
+          dep: this.plugins.find((el) => el.__TYPE__ === depDesc.type) || this.mockPlugin(depDesc.key)
+        }))
+        .reduce((acc, { key, dep }) => ({ ...acc, [key]: dep}), {});
 
     plugin.init(deps);
     return plugin;
+  }
+
+  mockPlugin(key) {
+    const fn = () => console.warn(`Whoops, the following plugin does not exist:`, key);
+    return new Proxy({}, {
+      get(target, name) {
+        // TODO: Print `key`.
+        return fn;
+      }
+    })
   }
 
   setupPlugins(plugins) {
