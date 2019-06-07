@@ -55,11 +55,20 @@ class DataSource extends AbstractPlugin {
       ? this.settings.onlyListenOn
       : [
           { listenOn: Events.PRODUCTS_FETCH, emitOn: Events.PRODUCTS_SUPPLY, callback: { fn: this.fetch, context: this } },
+          { listenOn: Events.SAYT_PRODUCTS_FETCH, emitOn: Events.SAYT_PRODUCTS_SUPPLY, callback: { fn: this.fetchSaytProducts, context: this } },
           ...this.settings.alsoListenOn,
       ];
   }
 
   fetch(data) {
+    return new Promise((resolve, reject) => {
+      return this.api.fetch(data)
+        .then(resolve, reject);
+    });
+  }
+
+  fetchSaytProducts(data) {
+    // TODO: Update method to return distinct data.
     return new Promise((resolve, reject) => {
       return this.api.fetch(data)
         .then(resolve, reject);
