@@ -39,6 +39,16 @@ class Core {
     this.plugins = this.instantiatePlugins(plugins);
 
     /**
+     * // TODO
+     */
+    this.initializePlugins(this.plugins);
+
+    /**
+     * // TODO
+     */
+    this.setupPlugins(this.plugins);
+
+    /**
      * Additionally, the Core instance is responsible for facilitating
      * communication between plugins, including the `DATA_SOURCE` and
      * `EVENTS`plugins.
@@ -109,10 +119,39 @@ class Core {
 
     const deps = mod.DEPENDENCIES;
 
-    const missing = deps.filter((dep) => types.length && types.indexOf(dep) === -1);
+    const m = new mod(this, modOpts);
+    // TEMP: Add dependencies and type information to instance via props.
+    m.__DEPENDENCIES__ = deps;
+    m.__TYPE__ = mod.TYPE;
+    return m;
+  }
+
+  initializePlugins(plugins) {
+    plugins.forEach((plugin) => this.initializePlugin(plugin));
+    return plugins;
+  }
+
+  initializePlugin(plugin) {
+    const types = this.plugins.map((plugin) => plugin.__TYPE__);
+    const missing = plugin.__DEPENDENCIES__.filter((dep) => types.length && types.indexOf(dep) === -1);
     if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
 
-    return new mod(this, modOpts);
+    const deps = plugin.__DEPENDENCIES__
+        .map((dep) => this.plugins.find((el) => el.__TYPE__ === dep))
+        .reduce((acc, dep) => ({ ...acc, [dep.constructor.name]: dep}), {});
+
+    plugin.init(deps);
+    return plugin;
+  }
+
+  setupPlugins(plugins) {
+    plugins.forEach((plugin) => this.setupPlugin(plugin));
+    return plugins;
+  }
+
+  setupPlugin(plugin) {
+    plugin.afterInit();
+    return plugin;
   }
 
   extractPlugin(maybePlugin) {
