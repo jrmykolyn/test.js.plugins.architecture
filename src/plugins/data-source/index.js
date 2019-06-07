@@ -37,6 +37,16 @@ class DataSource extends AbstractPlugin {
     this.api = new Api();
   }
 
+  init(deps) {
+    this.deps = deps;
+  }
+
+  afterInit() {
+    this.register().forEach(({ listenOn, emitOn, callback }) => {
+      this.deps.Events.register(listenOn, emitOn, callback);
+    });
+  }
+
   register() {
     return this.settings.onlyListenOn.length
       ? this.settings.onlyListenOn

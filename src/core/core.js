@@ -47,28 +47,6 @@ class Core {
      * // TODO
      */
     this.setupPlugins(this.plugins);
-
-    /**
-     * Additionally, the Core instance is responsible for facilitating
-     * communication between plugins, including the `DATA_SOURCE` and
-     * `EVENTS`plugins.
-     *
-     * `DATA_SOURCE` plugins expose a `register()` method, which returns
-     * an array of objects, each of which contains an event to 'listen'
-     * on, an event to 'emit' on, and a callback to invoke when the former
-     * event is 'heard'.
-     *
-     * `EVENTS` plugins also expose a `register()` method. This method
-     * accepts the data returned by the `DATA_SOURCE` plugins' `register()`,
-     * and registers a environment-specific event listeners.
-     */
-    const [eventsPlugin] = this.getPluginsByType(PluginTypes.EVENTS);
-    const dataSourcePlugins = this.getPluginsByType(PluginTypes.DATA_SOURCE);
-    dataSourcePlugins.forEach((pluginInstance) => {
-      pluginInstance.register().forEach(({ listenOn, emitOn, callback }) => {
-        eventsPlugin.register(listenOn, emitOn, callback);
-      });
-    });
   }
 
   /**
