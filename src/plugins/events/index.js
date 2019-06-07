@@ -6,6 +6,10 @@ class Events extends AbstractPlugin {
     return PluginTypes.EVENTS;
   }
 
+  static get NAME() {
+    return 'Events';
+  }
+
   static get DEPENDENCIES() {
     return [PluginTypes.CACHE];
   }

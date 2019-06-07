@@ -2,6 +2,10 @@ const { Events } = require('../../core');
 const { AbstractFilterPlugin } = require('../../core/plugins');
 
 class Filter extends AbstractFilterPlugin {
+  static get NAME() {
+    return 'Filter';
+  }
+
   filter(payload) {
     const { emitOn, data } = payload;
 

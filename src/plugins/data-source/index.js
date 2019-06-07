@@ -19,6 +19,10 @@ class DataSource extends AbstractPlugin {
     return PluginTypes.DATA_SOURCE;
   }
 
+  static get NAME() {
+    return 'DataSource';
+  }
+
   static get DEPENDENCIES() {
     return [PluginTypes.EVENTS];
   }

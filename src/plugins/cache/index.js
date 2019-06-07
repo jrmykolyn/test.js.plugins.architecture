@@ -6,6 +6,10 @@ class Cache extends AbstractPlugin {
     return PluginTypes.CACHE;
   }
 
+  static get NAME() {
+    return 'Cache';
+  }
+
   constructor(...args) {
     super(...args);
 
