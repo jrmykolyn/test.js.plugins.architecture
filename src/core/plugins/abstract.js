@@ -18,6 +18,14 @@ class AbstractPlugin {
     this.settings = this.resolveSettings(opts, AbstractPlugin.DEFAULTS);
   }
 
+  init() {
+    // no-op
+  }
+
+  afterInit() {
+    // no-op
+  }
+
   resolveSettings(options = {}, defaults = {}) {
     return Object.assign({}, defaults, options);
   }
