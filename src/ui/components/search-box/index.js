@@ -24,9 +24,17 @@ class SearchBox extends HTMLElement {
     this.root.querySelector('input').removeEventListener('keyup', this.search);
   }
 
-  search() {
+  search(e) {
     const query = this.root.querySelector('input').value;
-    if (query && query.length >= 3) window.dispatchEvent(new CustomEvent(Events.PRODUCTS_FETCH, { detail: { query } }));
+
+    switch (+e.keyCode) {
+      case 13:
+        window.dispatchEvent(new CustomEvent(Events.PRODUCTS_FETCH, { detail: { query } }));
+        break;
+      default:
+        if (!query || query.length < 3) return;
+        window.dispatchEvent(new CustomEvent(Events.SAYT_PRODUCTS_FETCH, { detail: { query } }));
+    }
   }
 }
 
