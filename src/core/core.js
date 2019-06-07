@@ -14,10 +14,10 @@ class Core {
    */
   static get ORDER() {
     return [
+      PluginTypes.CACHE,
       PluginTypes.FILTER,
       PluginTypes.DATA_SOURCE,
       PluginTypes.EVENTS,
-      PluginTypes.CACHE,
     ];
   }
 
