@@ -101,6 +101,7 @@ class Core {
     // TEMP: Add dependencies and type information to instance via props.
     m.__DEPENDENCIES__ = deps;
     m.__TYPE__ = mod.TYPE;
+    m.__OPTIONAL__ = mod.OPTIONAL;
     return m;
   }
 

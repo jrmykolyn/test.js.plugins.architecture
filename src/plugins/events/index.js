@@ -14,6 +14,10 @@ class Events extends AbstractPlugin {
     return [PluginTypes.CACHE];
   }
 
+  static get OPTIONAL() {
+    return [{ type: PluginTypes.CACHE, key: 'Cache' }];
+  }
+
   init(deps) {
     this.deps = deps;
   }
