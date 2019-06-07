@@ -214,7 +214,7 @@ eval("const { Events } = __webpack_require__(/*! ../../core */ \"./src/core/inde
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = {\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
+eval("module.exports = {\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  Sayt: __webpack_require__(/*! ./sayt */ \"./src/ui/components/sayt/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
 
 /***/ }),
 
@@ -226,6 +226,17 @@ eval("module.exports = {\n  Products: __webpack_require__(/*! ./products */ \"./
 /***/ (function(module, exports, __webpack_require__) {
 
 eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <section></section>\n`;\n\nclass Products extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n\n    // Bind.\n    this.updateProducts = this.updateProducts.bind(this);\n  }\n\n  connectedCallback() {\n    window.addEventListener(Events.PRODUCTS_SUPPLY, this.updateProducts);\n  }\n\n  disconnectedCallback() {\n    window.removeEventListener(Events.PRODUCTS_SUPPLY, this.updateProducts);\n  }\n\n  updateProducts(e) {\n    const target = this.root.querySelector('section');\n    target.innerHTML = '';\n    e.detail.data.records.forEach((product) => {\n      target.appendChild(this.renderProduct(product));\n    });\n  }\n\n  renderProduct(product) {\n    const elem = document.createElement('p');\n    elem.innerHTML = product.allMeta.title;\n    return elem;\n  }\n}\n\nmodule.exports = Products;\n\n\n//# sourceURL=webpack:///./src/ui/components/products/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/sayt/index.js":
+/*!*****************************************!*\
+  !*** ./src/ui/components/sayt/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <section></section>\n`;\n\nclass Sayt extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n\n    // Bind.\n    this.updateProducts = this.updateProducts.bind(this);\n  }\n\n  connectedCallback() {\n    window.addEventListener(Events.SAYT_PRODUCTS_SUPPLY, this.updateProducts);\n  }\n\n  disconnectedCallback() {\n    window.removeEventListener(Events.SAYT_PRODUCTS_SUPPLY, this.updateProducts);\n  }\n\n  updateProducts(e) {\n    const target = this.root.querySelector('section');\n    target.innerHTML = '';\n    e.detail.data.records.forEach((product) => {\n      target.appendChild(this.renderProduct(product));\n    });\n  }\n\n  renderProduct(product) {\n    const elem = document.createElement('p');\n    elem.innerHTML = product.allMeta.title;\n    return elem;\n  }\n}\n\nmodule.exports = Sayt;\n\n\n//# sourceURL=webpack:///./src/ui/components/sayt/index.js?");
 
 /***/ }),
 
