@@ -2,7 +2,7 @@ const { Events } = require('../../core');
 const { AbstractFilterPlugin } = require('../../core/plugins');
 
 class Filter extends AbstractFilterPlugin {
-  static get NAME() {
+  get NAME() {
     return 'Filter';
   }
 

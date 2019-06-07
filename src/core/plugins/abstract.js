@@ -5,21 +5,21 @@
  * instantiation behaviour via the constructor method.
  */
 class AbstractPlugin {
-  static get DEPENDENCIES() {
+ get DEPENDENCIES() {
     return [];
   }
 
-  static get OPTIONAL() {
+ get OPTIONAL() {
     return [];
   }
 
-  static get DEFAULTS() {
+ get DEFAULTS() {
     return {};
   }
 
   constructor(core, opts = {}) {
     this.core = core;
-    this.settings = this.resolveSettings(opts, AbstractPlugin.DEFAULTS);
+    this.settings = this.resolveSettings(opts, this.DEFAULTS);
   }
 
   init() {

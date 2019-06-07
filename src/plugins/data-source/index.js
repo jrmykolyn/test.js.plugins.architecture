@@ -15,19 +15,19 @@ class Api {
 }
 
 class DataSource extends AbstractPlugin {
-  static get TYPE() {
+ get TYPE() {
     return PluginTypes.DATA_SOURCE;
   }
 
-  static get NAME() {
+ get NAME() {
     return 'DataSource';
   }
 
-  static get DEPENDENCIES() {
+ get DEPENDENCIES() {
     return [{ type: PluginTypes.EVENTS, key: 'Events' }];
   }
 
-  static get DEFAULTS() {
+ get DEFAULTS() {
     return {
       alsoListenOn: [],
       onlyListenOn: [],
@@ -37,7 +37,6 @@ class DataSource extends AbstractPlugin {
   constructor(core, opts = {}) {
     super(core, opts);
 
-    this.settings = this.resolveSettings(opts, DataSource.DEFAULTS);
     this.api = new Api();
   }
 

@@ -2,15 +2,15 @@ const { PluginTypes } = require('../../core');
 const { AbstractPlugin } = require('../../core/plugins');
 
 class Events extends AbstractPlugin {
-  static get TYPE() {
+ get TYPE() {
     return PluginTypes.EVENTS;
   }
 
-  static get NAME() {
+ get NAME() {
     return 'Events';
   }
 
-  static get OPTIONAL() {
+ get OPTIONAL() {
     return [{ type: PluginTypes.CACHE, key: 'Cache' }];
   }
 

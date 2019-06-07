@@ -8,7 +8,7 @@ const AbstractPlugin = require('./abstract');
  * plugin classes).
  */
 class AbstractFilterPlugin extends AbstractPlugin {
-  static get TYPE() {
+ get TYPE() {
     return PluginTypes.FILTER;
   }
 

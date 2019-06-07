@@ -94,15 +94,7 @@ class Core {
   instantiatePlugin(plugin, types = []) {
     const mod = this.extractPlugin(plugin);
     const modOpts = this.extractPluginOpts(plugin);
-
-    const deps = mod.DEPENDENCIES;
-
-    const m = new mod(this, modOpts);
-    // TEMP: Add dependencies and type information to instance via props.
-    m.__DEPENDENCIES__ = deps;
-    m.__TYPE__ = mod.TYPE;
-    m.__OPTIONAL__ = mod.OPTIONAL;
-    return m;
+    return new mod(this, modOpts);
   }
 
   initializePlugins(plugins) {
@@ -111,14 +103,14 @@ class Core {
   }
 
   initializePlugin(plugin) {
-    const types = this.plugins.map((plugin) => plugin.__TYPE__);
-    const missing = plugin.__DEPENDENCIES__.filter(({ type }) => types.length && types.indexOf(type) === -1);
+    const types = this.plugins.map((plugin) => plugin.TYPE);
+    const missing = plugin.DEPENDENCIES.filter(({ type }) => types.length && types.indexOf(type) === -1);
     if (missing.length) throw new Error(`Missing the following dependencies: ${missing.join('; ')}`);
 
-    const deps = [...plugin.__DEPENDENCIES__, ...plugin.__OPTIONAL__]
+    const deps = [...plugin.DEPENDENCIES, ...plugin.OPTIONAL]
         .map((depDesc) => ({
           ...depDesc,
-          dep: this.plugins.find((el) => el.__TYPE__ === depDesc.type) || this.mockPlugin(depDesc.key)
+          dep: this.plugins.find((el) => el.TYPE === depDesc.type) || this.mockPlugin(depDesc.key)
         }))
         .reduce((acc, { key, dep }) => ({ ...acc, [key]: dep}), {});
 
