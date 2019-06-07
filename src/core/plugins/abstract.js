@@ -9,6 +9,10 @@ class AbstractPlugin {
     return [];
   }
 
+  static get OPTIONAL() {
+    return [];
+  }
+
   static get DEFAULTS() {
     return {};
   }
