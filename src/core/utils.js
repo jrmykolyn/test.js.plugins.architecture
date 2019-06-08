@@ -25,6 +25,7 @@ const PluginTypes = {
 const Events = {
   PRODUCTS_FETCH: 'sfx:products:fetch',
   PRODUCTS_SUPPLY: 'sfx:products:supply',
+  SAYT_DISMISS: 'sfx:sayt:dismiss',
   SAYT_PRODUCTS_FETCH: 'sfx:sayt-products:fetch',
   SAYT_PRODUCTS_SUPPLY: 'sfx:sayt-products:supply',
 };
