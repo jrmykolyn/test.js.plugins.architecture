@@ -9,18 +9,15 @@ template.innerHTML = `
       box-shadow: 0 0.3rem 3rem -1rem rgba(0, 0, 0, 0.3);
     }
 
+    .suggestions__inner:not(:empty) {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
     a {
       display: block;
       color: #444;
       padding: 1rem 2rem;
-    }
-
-    a:first-child {
-      padding-top: 2rem;
-    }
-
-    a:last-child {
-      padding-bottom: 2rem;
     }
   </style>
   <div class="view"></div>
