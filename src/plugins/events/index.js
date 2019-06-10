@@ -11,11 +11,15 @@ class Events extends AbstractPlugin {
   }
 
  get OPTIONAL() {
-    return [{ type: PluginTypes.CACHE, key: 'Cache' }];
+    return [
+      { type: PluginTypes.CACHE, key: 'Cache' },
+      { type: PluginTypes.LOGGER, key: 'Logger' },
+    ];
   }
 
   register(listenOn, emitOn, callback) {
     window.addEventListener(listenOn, (e) => {
+      this.deps.Logger.log(`[${this.NAME}] Handling event`, listenOn)
       try {
         const { detail } = e;
         const key = [listenOn, detail];
@@ -35,14 +39,15 @@ class Events extends AbstractPlugin {
           ? result.then(fn)
           : fn(result);
       } catch (e) {
+        this.deps.Logger.error(`[${this.NAME}] Encountered error`, e);
         // TODO: Dispatch error-type event.
-        console.error(e);
       }
     });
   }
 
   dispatch(payload) {
     const { emitOn, data } = payload;
+    this.deps.Logger.log(`[${this.NAME}] Emitting event with payload`, emitOn, payload);
     window.dispatchEvent(new window.CustomEvent(emitOn, { detail: payload }));
   }
 }
