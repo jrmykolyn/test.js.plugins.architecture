@@ -247,7 +247,18 @@ eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/i
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <input type=\"text\" />\n`;\n\nclass SearchBox extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n\n    // Bind.\n    this.search = this.search.bind(this);\n  }\n\n  connectedCallback() {\n    this.root.querySelector('input').addEventListener('keyup', this.search);\n  }\n\n  disconnectedCallback() {\n    this.root.querySelector('input').removeEventListener('keyup', this.search);\n  }\n\n  search(e) {\n    const query = this.root.querySelector('input').value;\n\n    switch (+e.keyCode) {\n      case 13:\n        window.dispatchEvent(new CustomEvent(Events.PRODUCTS_FETCH, { detail: { query } }));\n        break;\n      default:\n        if (!query || query.length < 3) return;\n        window.dispatchEvent(new CustomEvent(Events.SAYT_PRODUCTS_FETCH, { detail: { query } }));\n    }\n  }\n}\n\nmodule.exports = SearchBox;\n\n\n//# sourceURL=webpack:///./src/ui/components/search-box/index.js?");
+eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\nconst { interpolate } = __webpack_require__(/*! ./../utils */ \"./src/ui/components/utils.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <style>\n    input {\n      /* TEMP */\n      width: 1000rem;\n      max-width: 30rem;\n      background: transparent;\n      padding: 1rem;\n      border: solid 0.1rem #ddd;\n    }\n\n  </style>\n  <div class=\"view\"></div>\n`;\nconst tmpl = `\n  <div class=\"search-box\">\n    <div class=\"search-box__inner\">\n      <input type=\"text\" />\n    </div>\n  </div>\n`;\n\nclass SearchBox extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n    this.view = this.root.querySelector('.view');\n\n    // Bind.\n    this.render = this.render.bind(this);\n    this.search = this.search.bind(this);\n  }\n\n  connectedCallback() {\n    this.render();\n    this.view.querySelector('input').addEventListener('keyup', this.search);\n  }\n\n  disconnectedCallback() {\n    this.view.querySelector('input').removeEventListener('keyup', this.search);\n  }\n\n  render() {\n    this.view.innerHTML = '';\n    this.view.innerHTML = interpolate(tmpl);\n  }\n\n  search(e) {\n    const query = this.view.querySelector('input').value;\n\n    switch (+e.keyCode) {\n      case 13:\n        window.dispatchEvent(new CustomEvent(Events.PRODUCTS_FETCH, { detail: { query } }));\n        break;\n      default:\n        if (!query || query.length < 3) return;\n        window.dispatchEvent(new CustomEvent(Events.SAYT_PRODUCTS_FETCH, { detail: { query } }));\n    }\n  }\n}\n\nmodule.exports = SearchBox;\n\n\n//# sourceURL=webpack:///./src/ui/components/search-box/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/utils.js":
+/*!************************************!*\
+  !*** ./src/ui/components/utils.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const interpolate = (tmpl, data = {}) => {\n  return Object.keys(data).reduce((str, key) => {\n    const pattern = new RegExp(`{{ ${key} }}`, 'gmi');\n    return str.replace(pattern, data[key]);\n  }, tmpl);\n};\n\nmodule.exports = {\n  interpolate,\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/utils.js?");
 
 /***/ }),
 
