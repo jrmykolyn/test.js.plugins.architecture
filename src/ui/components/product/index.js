@@ -10,6 +10,7 @@ template.innerHTML = `
     }
 
     article {
+      min-height: 40rem;
       background: #fff;
       box-shadow: 0 0.5rem 3rem -1rem rgba(0, 0, 0, 0.3);
     }
@@ -18,8 +19,15 @@ template.innerHTML = `
       padding: 2rem;
     }
 
+    article h1 {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.4;
+    }
+
     img {
       max-width: 100%;
+      display: block;
     }
   </style>
   <div class="view"></div>

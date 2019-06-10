@@ -8,15 +8,19 @@ template.innerHTML = `
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: flex-start;
       padding: 2rem 0;
     }
 
     .products__inner > * {
       width: 32%;
       margin-bottom: 4%;
+      margin-right: 2%;
     }
 
+    .products__inner > *:nth-child(3n) {
+      margin-right: 0;
+    }
   </style>
   <div class="view"></div>
 `;
