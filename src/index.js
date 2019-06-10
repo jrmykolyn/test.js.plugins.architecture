@@ -12,6 +12,7 @@ const DataSource = require('./plugins/data-source');
 const Events = require('./plugins/events');
 const Filter = require('./plugins/filter');
 const Cache = require('./plugins/cache');
+const Logger = require('./plugins/logger');
 const { Components }  = require('./ui');
 
 /**
@@ -43,5 +44,6 @@ const core = window.__CORE__ = new Core({
     Events,
     Filter,
     Cache,
+    Logger,
   ],
 });
