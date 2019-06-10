@@ -7,7 +7,7 @@
  * First we import the Core module, the plugins, and our dictionary of
  * Web Component classes.
  */
-const { Core } = require('./core');
+const { Core, Events: EventsDict } = require('./core');
 const DataSource = require('./plugins/data-source');
 const Events = require('./plugins/events');
 const Filter = require('./plugins/filter');
@@ -37,7 +37,7 @@ const core = window.__CORE__ = new Core({
     [
       DataSource,
       {
-        alsoListenOn: [{ listenOn: 'bar', emitOn: 'baz', callback: () => 'quux' }],
+        alsoListenOn: [{ listenOn: EventsDict.PRODUCTS_FETCH, emitOn: EventsDict.SAYT_DISMISS , callback: () => true }],
       },
     ],
     Events,
