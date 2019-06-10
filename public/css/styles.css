@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background: #efefef;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.6rem;
+}
+
+.header {
+  background: #fff;
+  box-shadow: 0 0.3rem 2rem -0.5rem rbgb(0, 0, 0, 0.3);
+  /* TODO */
+}
+
+.header__inner {
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.main {
+  /* TODO */
+}
+
+.main__inner {
+  width: 90%;
+  max-width: 90rem;
+  margin: 0 auto;
+}
