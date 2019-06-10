@@ -8,20 +8,6 @@ const { PluginTypes } = require('./utils');
  */
 class Core {
   /**
-   * Core exposes a series of static getter properties. The `ORDER`
-   * property returns an array of plugin types, which is used to
-   * ensure that the plugins are instantiated in the correct order.
-   */
-  static get ORDER() {
-    return [
-      PluginTypes.CACHE,
-      PluginTypes.FILTER,
-      PluginTypes.DATA_SOURCE,
-      PluginTypes.EVENTS,
-    ];
-  }
-
-  /**
    * At instantiation time, Core is provided with an options object
    * that contains all of the data and configuration options that
    * are required for the current session.
@@ -74,8 +60,7 @@ class Core {
 
   /**
    * The `instantiatePlugins()` method is responsible for instantiating each
-   * plugin received by Core via the options object. In order to resolve
-   * dependencies, plugin classes are sorted prior to instantiation.
+   * plugin received by Core via the options object.
    *
    * This method also defines an array of plugin types, which are extracted
    * from the plugin classes themselves. This array is passed to the underlying
@@ -83,7 +68,7 @@ class Core {
    */
   instantiatePlugins(plugins) {
     const pluginTypes = this.getPluginTypes(plugins);
-    return this.sortPluginsByType(plugins).map((plugin) => {
+    return plugins.map((plugin) => {
       return this.instantiatePlugin(plugin, pluginTypes);
     });
   }
@@ -160,20 +145,6 @@ class Core {
    */
   getPluginsByType(type) {
     return this.plugins.filter((plugin) => plugin.constructor.TYPE === type);
-  }
-
-  /**
-   * The `sortPluginsByType()` utility method returns an array of plugins sorted by type.
-   * The sorting criteria is defined by the `ORDER` property of the Core class.
-   */
-  sortPluginsByType(plugins) {
-    return plugins.slice(0).sort((maybeA, maybeB) => {
-      const a = this.extractPlugin(maybeA);
-      const b = this.extractPlugin(maybeB);
-      const aIndex = Core.ORDER.indexOf(a.TYPE);
-      const bIndex = Core.ORDER.indexOf(b.TYPE);
-      return aIndex - bIndex;
-    });
   }
 }
 
