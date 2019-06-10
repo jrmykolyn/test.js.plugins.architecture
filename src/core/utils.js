@@ -12,6 +12,7 @@ const PluginTypes = {
   DATA_SOURCE: 'sfx:plugin:data-source',
   EVENTS: 'sfx:plugin:events',
   FILTER: 'sfx:plugin:filter',
+  LOGGER: 'sfx:plugin:logger',
 };
 
 /**
