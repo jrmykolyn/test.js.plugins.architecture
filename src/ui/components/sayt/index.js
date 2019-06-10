@@ -1,8 +1,34 @@
 const { Events } = require('../../../core');
+const { interpolate } = require('./../utils');
 
 const template = document.createElement('template');
 template.innerHTML = `
-  <section></section>
+  <style>
+    .suggestions {
+      background: #fff;
+      box-shadow: 0 0.3rem 3rem -1rem rgba(0, 0, 0, 0.3);
+    }
+
+    a {
+      display: block;
+      color: #444;
+      padding: 1rem 2rem;
+    }
+
+    a:first-child {
+      padding-top: 2rem;
+    }
+
+    a:last-child {
+      padding-bottom: 2rem;
+    }
+  </style>
+  <div class="view"></div>
+`;
+const tmpl = `
+  <div class="suggestions">
+    <div ref="suggestions" class="suggestions__inner"></div>
+  </div>
 `;
 
 class Sayt extends HTMLElement {
@@ -11,31 +37,52 @@ class Sayt extends HTMLElement {
 
     this.root = this.attachShadow({ mode: 'open' });
     this.root.appendChild(template.content.cloneNode(true));
+    this.view = this.root.querySelector('.view');
 
     // Bind.
+    this.render = this.render.bind(this);
     this.updateProducts = this.updateProducts.bind(this);
+    this.dismissSayt = this.dismissSayt.bind(this);
   }
 
   connectedCallback() {
+    this.render();
+
     window.addEventListener(Events.SAYT_PRODUCTS_SUPPLY, this.updateProducts);
+    window.addEventListener(Events.SAYT_DISMISS, this.dismissSayt);
   }
 
   disconnectedCallback() {
     window.removeEventListener(Events.SAYT_PRODUCTS_SUPPLY, this.updateProducts);
+    window.removeEventListener(Events.SAYT_DISMISS, this.dismissSayt);
+  }
+
+  render() {
+    this.view.innerHTML = '';
+    this.view.innerHTML = interpolate(tmpl, {});
   }
 
   updateProducts(e) {
-    const target = this.root.querySelector('section');
-    target.innerHTML = '';
+    this.render();
+
+    // TEMP: Implement `getRefs()` or similar.
+    const elem = this.view.querySelector('[ref="suggestions"]');
+
     e.detail.data.records.forEach((product) => {
-      target.appendChild(this.renderProduct(product));
+      elem.appendChild(this.renderProduct(product));
     });
   }
 
   renderProduct(product) {
-    const elem = document.createElement('p');
+    const elem = document.createElement('a');
+    elem.href = '#';
     elem.innerHTML = product.allMeta.title;
     return elem;
+  }
+
+  dismissSayt() {
+    // Re-render component to clear product data.
+    this.render();
   }
 }
 
