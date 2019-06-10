@@ -214,7 +214,18 @@ eval("const { Events } = __webpack_require__(/*! ../../core */ \"./src/core/inde
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = {\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  Sayt: __webpack_require__(/*! ./sayt */ \"./src/ui/components/sayt/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
+eval("module.exports = {\n  Product: __webpack_require__(/*! ./product */ \"./src/ui/components/product/index.js\"),\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  Sayt: __webpack_require__(/*! ./sayt */ \"./src/ui/components/sayt/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/product/index.js":
+/*!********************************************!*\
+  !*** ./src/ui/components/product/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\nconst { interpolate } = __webpack_require__(/*! ./../utils */ \"./src/ui/components/utils.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <style>\n    .view,\n    article {\n      height: 100%;\n    }\n\n    article {\n      background: #fff;\n      box-shadow: 0 0.5rem 3rem -1rem rgba(0, 0, 0, 0.3);\n    }\n\n    article div {\n      padding: 2rem;\n    }\n\n    img {\n      max-width: 100%;\n    }\n  </style>\n  <div class=\"view\"></div>\n`;\nconst tmpl = `\n  <article>\n    <header>\n      <img src=\"{{ src }}\" />\n    </header>\n    <div>\n      <h1>{{ title }}</h1>\n    </div>\n  </article>\n`;\n\nclass Product extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n    this.view = this.root.querySelector('.view');\n\n    // TEMP\n    this.state = {};\n\n    // Bind.\n    this.render = this.render.bind(this);\n  }\n\n  connectedCallback() {\n    this.render();\n  }\n\n  disconnectedCallback() {\n    // TODO\n  }\n\n  render() {\n    this.view.innerHTML = '';\n    this.view.innerHTML = interpolate(tmpl, {\n      title: this.state.data.allMeta.title,\n      src: 'https://via.placeholder.com/300x200',\n    });\n  }\n\n  // TODO: Move to base class.\n  set(data = {}) {\n    this.state = { ...this.state, ...data };\n  }\n}\n\nmodule.exports = Product;\n\n\n//# sourceURL=webpack:///./src/ui/components/product/index.js?");
 
 /***/ }),
 
