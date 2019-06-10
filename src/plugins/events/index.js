@@ -14,10 +14,6 @@ class Events extends AbstractPlugin {
     return [{ type: PluginTypes.CACHE, key: 'Cache' }];
   }
 
-  init(deps) {
-    this.deps = deps;
-  }
-
   register(listenOn, emitOn, callback) {
     window.addEventListener(listenOn, (e) => {
       try {

@@ -22,8 +22,8 @@ class AbstractPlugin {
     this.settings = this.resolveSettings(opts, this.DEFAULTS);
   }
 
-  init() {
-    // no-op
+  init(deps = {}) {
+    this.deps = deps;
   }
 
   afterInit() {
