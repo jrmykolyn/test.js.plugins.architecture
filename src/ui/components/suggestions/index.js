@@ -31,7 +31,7 @@ const tmpl = `
   </div>
 `;
 
-class Sayt extends HTMLElement {
+class Suggestions extends HTMLElement {
   constructor() {
     super();
 
@@ -86,4 +86,4 @@ class Sayt extends HTMLElement {
   }
 }
 
-module.exports = Sayt;
+module.exports = Suggestions;
