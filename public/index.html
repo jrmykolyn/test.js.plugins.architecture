@@ -8,10 +8,10 @@
   <body>
     <header class="header">
       <div class="header__inner">
-        <sfx-search-as-you-type>
+        <sfx-sayt>
           <sfx-search-box slot="search-box"></sfx-search-box>
           <sfx-suggestions slot="suggestions"></sfx-suggestions>
-        </sfx-search-as-you-type>
+        </sfx-sayt>
       </div>
     </header>
     <main class="main">
@@ -21,7 +21,7 @@
     </main>
     <script src="../dist/main.js"></script>
     <script>
-      window.customElements.define('sfx-search-as-you-type', window.__COMPONENTS__.SearchAsYouType);
+      window.customElements.define('sfx-sayt', window.__COMPONENTS__.Sayt);
       window.customElements.define('sfx-suggestions', window.__COMPONENTS__.Suggestions);
       window.customElements.define('sfx-search-box', window.__COMPONENTS__.SearchBox);
       window.customElements.define('sfx-products', window.__COMPONENTS__.Products);

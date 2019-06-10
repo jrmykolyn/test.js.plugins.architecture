@@ -214,7 +214,7 @@ eval("const { Events } = __webpack_require__(/*! ../../core */ \"./src/core/inde
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = {\n  Product: __webpack_require__(/*! ./product */ \"./src/ui/components/product/index.js\"),\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  SearchAsYouType: __webpack_require__(/*! ./search-as-you-type */ \"./src/ui/components/search-as-you-type/index.js\"),\n  Suggestions: __webpack_require__(/*! ./suggestions */ \"./src/ui/components/suggestions/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
+eval("module.exports = {\n  Product: __webpack_require__(/*! ./product */ \"./src/ui/components/product/index.js\"),\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  Sayt: __webpack_require__(/*! ./sayt */ \"./src/ui/components/sayt/index.js\"),\n  Suggestions: __webpack_require__(/*! ./suggestions */ \"./src/ui/components/suggestions/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
 
 /***/ }),
 
@@ -240,14 +240,14 @@ eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/i
 
 /***/ }),
 
-/***/ "./src/ui/components/search-as-you-type/index.js":
-/*!*******************************************************!*\
-  !*** ./src/ui/components/search-as-you-type/index.js ***!
-  \*******************************************************/
+/***/ "./src/ui/components/sayt/index.js":
+/*!*****************************************!*\
+  !*** ./src/ui/components/sayt/index.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\nconst { interpolate } = __webpack_require__(/*! ./../utils */ \"./src/ui/components/utils.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <style>\n    .sayt {\n      position: relative;\n    }\n\n    .sayt__inner {\n      /* TODO */\n    }\n\n    .search-box {\n\n    }\n\n    .search-box__inner {\n\n    }\n\n    .suggestions {\n      width: 100%;\n      height: auto;\n      position: absolute;\n      top: 100%;\n      left: 0;\n    }\n\n    .suggestions__inner {\n\n    }\n  </style>\n  <div class=\"view\"></div>\n`;\nconst tmpl = `\n  <div class=\"sayt\">\n    <div class=\"sayt__inner\">\n      <div class=\"search-box\">\n        <div class=\"search-box__inner\">\n          <slot name=\"search-box\"></slot>\n        </div>\n      </div>\n      <div class=\"suggestions\">\n        <div class=\"suggestions__inner\">\n          <slot name=\"suggestions\"></slot>\n        </div>\n      </div>\n    </div>\n  </div>\n`;\n\nclass SearchAsYouType extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n    this.view = this.root.querySelector('.view');\n\n    // Bind.\n    this.render = this.render.bind(this);\n  }\n\n  connectedCallback() {\n    this.render();\n  }\n\n  disconnectedCallback() {\n    // TODO\n  }\n\n  render() {\n    this.view.innerHTML = '';\n    this.view.innerHTML = interpolate(tmpl, { foo: 'bar' });\n  }\n\n  renderProduct(product) {\n    const elem = document.createElement('p');\n    elem.innerHTML = product.allMeta.title;\n    return elem;\n  }\n}\n\nmodule.exports = SearchAsYouType;\n\n\n//# sourceURL=webpack:///./src/ui/components/search-as-you-type/index.js?");
+eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\nconst { interpolate } = __webpack_require__(/*! ./../utils */ \"./src/ui/components/utils.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <style>\n    .sayt {\n      position: relative;\n    }\n\n    .sayt__inner {\n      /* TODO */\n    }\n\n    .search-box {\n\n    }\n\n    .search-box__inner {\n\n    }\n\n    .suggestions {\n      width: 100%;\n      height: auto;\n      position: absolute;\n      top: 100%;\n      left: 0;\n    }\n\n    .suggestions__inner {\n\n    }\n  </style>\n  <div class=\"view\"></div>\n`;\nconst tmpl = `\n  <div class=\"sayt\">\n    <div class=\"sayt__inner\">\n      <div class=\"search-box\">\n        <div class=\"search-box__inner\">\n          <slot name=\"search-box\"></slot>\n        </div>\n      </div>\n      <div class=\"suggestions\">\n        <div class=\"suggestions__inner\">\n          <slot name=\"suggestions\"></slot>\n        </div>\n      </div>\n    </div>\n  </div>\n`;\n\nclass Sayt extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n    this.view = this.root.querySelector('.view');\n\n    // Bind.\n    this.render = this.render.bind(this);\n  }\n\n  connectedCallback() {\n    this.render();\n  }\n\n  disconnectedCallback() {\n    // TODO\n  }\n\n  render() {\n    this.view.innerHTML = '';\n    this.view.innerHTML = interpolate(tmpl, { foo: 'bar' });\n  }\n\n  renderProduct(product) {\n    const elem = document.createElement('p');\n    elem.innerHTML = product.allMeta.title;\n    return elem;\n  }\n}\n\nmodule.exports = Sayt;\n\n\n//# sourceURL=webpack:///./src/ui/components/sayt/index.js?");
 
 /***/ }),
 

@@ -51,7 +51,7 @@ const tmpl = `
   </div>
 `;
 
-class SearchAsYouType extends HTMLElement {
+class Sayt extends HTMLElement {
   constructor() {
     super();
 
@@ -83,4 +83,4 @@ class SearchAsYouType extends HTMLElement {
   }
 }
 
-module.exports = SearchAsYouType;
+module.exports = Sayt;
