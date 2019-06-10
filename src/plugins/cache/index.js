@@ -10,6 +10,10 @@ class Cache extends AbstractPlugin {
     return 'Cache';
   }
 
+  get OPTIONAL() {
+    return [{ type: PluginTypes.LOGGER, key: 'Logger' }];
+  }
+
   constructor(...args) {
     super(...args);
 
@@ -18,17 +22,24 @@ class Cache extends AbstractPlugin {
 
   get(key) {
     const k = this.normalizeKey(key);
+
+    this.deps.Logger.log(`[${this.NAME}] Retrieving data at key`, k);
+
     const { payload } = this.cache[k] || {};
     return payload;
   }
 
   put(key, value) {
+    this.deps.Logger.log(`[${this.NAME}] Inserting data at key`, value, key);
     const k = this.normalizeKey(key);
     this.cache[k] = { expiresAt: new Date().getTime() + 10000, payload: value };
   }
 
   has(key) {
     const k = this.normalizeKey(key);
+
+    this.deps.Logger.log(`[${this.NAME}] Checking for the presence of data at key`, key);
+
     return this.cache[k] && this.cache[k].expiresAt >= new Date().getTime();
   }
 
