@@ -75,8 +75,19 @@ class Suggestions extends HTMLElement {
 
   renderProduct(product) {
     const elem = document.createElement('a');
+    const fn = (e) => {
+      switch (+e.keyCode) {
+        case 13:
+          window.dispatchEvent(new CustomEvent(Events.PRODUCTS_FETCH, { detail: { query: e.target.innerHTML } }));
+          break;
+        default: return;
+      }
+    };
+
     elem.href = '#';
     elem.innerHTML = product.allMeta.title;
+    // TODO: Remove node-specific event handler when component is unmounted or re-rendered.
+    elem.addEventListener('keyup', fn);
     return elem;
   }
 
