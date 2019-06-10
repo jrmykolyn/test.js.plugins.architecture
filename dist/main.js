@@ -214,7 +214,7 @@ eval("const { Events } = __webpack_require__(/*! ../../core */ \"./src/core/inde
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const { PluginTypes } = __webpack_require__(/*! ../../core */ \"./src/core/index.js\");\nconst { AbstractPlugin } = __webpack_require__(/*! ../../core/plugins */ \"./src/core/plugins/index.js\");\n\nclass Logger extends AbstractPlugin {\n  get TYPE() {\n    return PluginTypes.LOGGER;\n  }\n\n  get NAME() {\n    return 'Logger';\n  }\n\n  constructor(core, opts = {}) {\n    super(core, opts);\n\n    this.logger = window.console;\n    this.methods = ['log'];\n    this.methods.forEach((method) => {\n      this[method] = (...args) => this.logger[method](...args);\n    });\n  }\n\n}\n\nmodule.exports = Logger;\n\n\n//# sourceURL=webpack:///./src/plugins/logger/index.js?");
+eval("const { PluginTypes } = __webpack_require__(/*! ../../core */ \"./src/core/index.js\");\nconst { AbstractPlugin } = __webpack_require__(/*! ../../core/plugins */ \"./src/core/plugins/index.js\");\n\nclass Logger extends AbstractPlugin {\n  get TYPE() {\n    return PluginTypes.LOGGER;\n  }\n\n  get NAME() {\n    return 'Logger';\n  }\n\n  constructor(core, opts = {}) {\n    super(core, opts);\n\n    this.logger = window.console;\n    this.methods = ['log', 'error'];\n    this.methods.forEach((method, i) => {\n      this[method] = (...args) => {\n        if (i >= this.methods.indexOf(this.settings.mode)) this.logger[method](...args);\n      }\n    });\n  }\n\n}\n\nmodule.exports = Logger;\n\n\n//# sourceURL=webpack:///./src/plugins/logger/index.js?");
 
 /***/ }),
 
