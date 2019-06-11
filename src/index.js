@@ -1,37 +1,43 @@
 /**
  * This file represents the entry point for the Webpack process, the output
- * of which is a JavaScript artifact that is loaded via a <script> tag.
+ * of which is a JavaScript artifact. This artifact is consumed by the sample/
+ * demo application, which lives within the public/ directory.
  */
 
 /**
- * First we import the Core module, the plugins, and our dictionary of
- * Web Component classes.
+ * First we import the Core module, as well as a dictionary of event identifiers.
  */
 const { Core, Events: EventsDict } = require('./core');
+
+/**
+ * Then we import our plugin classes, which we'll provide to Core at instantiation
+ * time via an options object.
+ */
 const DataSource = require('./plugins/data-source');
 const Events = require('./plugins/events');
 const Filter = require('./plugins/filter');
 const Cache = require('./plugins/cache');
 const Logger = require('./plugins/logger');
-const { Components }  = require('./ui');
 
-/**
- * Since the demo page will be responsible for registering each of the
- * Web Components, we expose the dictionary as a property of the `window`
- * object.
+/** Our final import is a dictionary of Web Components classes. Since the demo
+ * application will be responsible for registering each of the Web Components, we
+ * make the classes available by exposing them as property of the `window` object.
  */
+const { Components }  = require('./ui');
 window.__COMPONENTS__ = Components;
 
 /**
- * Here we create a new instance of the Core class, passing in an options object,
+ * Finally we create a new instance of the Core class, passing in an options object
  * that contains our plugin classes. We also expose the Core instance via the
  * `__CORE__` property of the `window` object.
  *
- * For plugins that do not require configuration options, the plugin class is
- * sufficient. In cases where a plugin either requires or accepts configuration
- * options, these may be provided using an array-types structure. In this case,
- * Core expects the first member of the array to be the plugin class, and the
- * second member to be an options object.
+ * For cases where a plugin does not require configuration options, providing the
+ * plugin class is sufficient.
+ *
+ * For cases where a plugin either requires (or accepts) configuration options,
+ * these may be provided using an array-type structure. In this case, Core expects
+ * the first member of the array to be the plugin class, and the second member to
+ * be an options object.
  */
 const core = window.__CORE__ = new Core({
   plugins: [
