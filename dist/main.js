@@ -137,7 +137,7 @@ eval("const { PluginTypes } = __webpack_require__(/*! ../utils */ \"./src/core/u
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const { PluginTypes } = __webpack_require__(/*! ../utils */ \"./src/core/utils.js\");\nconst AbstractPlugin = __webpack_require__(/*! ./abstract */ \"./src/core/plugins/abstract.js\");\n\n/**\n * The `AbstractFilterPlugin` class provides the foundation for all `FILTER`-type\n * plugin classes. This class defines the `TYPE` static method, and a minimal\n * implementation of the `filter()` method (which is required by all `FILTER`-type\n * plugin classes).\n */\nclass AbstractFilterPlugin extends AbstractPlugin {\n get TYPE() {\n    return PluginTypes.FILTER;\n  }\n\n  filter() {\n    throw new Error('FILTER-type plugins must implement the `#filter()` method.');\n  }\n}\n\nmodule.exports = AbstractFilterPlugin;\n\n\n//# sourceURL=webpack:///./src/core/plugins/filter.js?");
+eval("const { PluginTypes } = __webpack_require__(/*! ../utils */ \"./src/core/utils.js\");\nconst AbstractPlugin = __webpack_require__(/*! ./abstract */ \"./src/core/plugins/abstract.js\");\n\n/**\n * The `AbstractFilterPlugin` class provides the foundation for all `FILTER`-type\n * plugin classes. This class defines the `TYPE` instance property, and a minimal\n * implementation of the `filter()` method (which is required by all `FILTER`-type\n * plugin classes).\n */\nclass AbstractFilterPlugin extends AbstractPlugin {\n get TYPE() {\n    return PluginTypes.FILTER;\n  }\n\n  filter() {\n    throw new Error('FILTER-type plugins must implement the `#filter()` method.');\n  }\n}\n\nmodule.exports = AbstractFilterPlugin;\n\n\n//# sourceURL=webpack:///./src/core/plugins/filter.js?");
 
 /***/ }),
 

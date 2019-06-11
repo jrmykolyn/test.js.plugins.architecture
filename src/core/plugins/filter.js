@@ -3,7 +3,7 @@ const AbstractPlugin = require('./abstract');
 
 /**
  * The `AbstractFilterPlugin` class provides the foundation for all `FILTER`-type
- * plugin classes. This class defines the `TYPE` static method, and a minimal
+ * plugin classes. This class defines the `TYPE` instance property, and a minimal
  * implementation of the `filter()` method (which is required by all `FILTER`-type
  * plugin classes).
  */
