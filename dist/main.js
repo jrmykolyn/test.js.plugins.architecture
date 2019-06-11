@@ -119,6 +119,17 @@ eval("/**\n * The `AbstractPlugin` class provides the foundation for all plugin-
 
 /***/ }),
 
+/***/ "./src/core/plugins/data-source.js":
+/*!*****************************************!*\
+  !*** ./src/core/plugins/data-source.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const { PluginTypes } = __webpack_require__(/*! ../utils */ \"./src/core/utils.js\");\nconst AbstractPlugin = __webpack_require__(/*! ./abstract */ \"./src/core/plugins/abstract.js\");\n\n/**\n * The `AbstractDataSourcePlugin` class provides the foundation for all `DATA_SOURCE`-type\n * plugin classes. This class defines the `TYPE` instance property, as well as a series of\n * utility methods.\n */\nclass AbstractDataSourcePlugin extends AbstractPlugin {\n get TYPE() {\n    return PluginTypes.DATA_SOURCE;\n  }\n\n  constructor(core, opts = {}) {\n    super(core, opts);\n    this.ingestApi(opts);\n  }\n\n  ingestApi(opts = {}) {\n    const { api } = opts;\n    if (!api) throw new Error('Whoops, DATA_SOURCE-type plugins must receive an `api` at instantiation time');\n    this.api = new api();\n  }\n}\n\nmodule.exports = AbstractDataSourcePlugin;\n\n\n//# sourceURL=webpack:///./src/core/plugins/data-source.js?");
+
+/***/ }),
+
 /***/ "./src/core/plugins/filter.js":
 /*!************************************!*\
   !*** ./src/core/plugins/filter.js ***!
@@ -137,7 +148,7 @@ eval("const { PluginTypes } = __webpack_require__(/*! ../utils */ \"./src/core/u
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = {\n  AbstractFilterPlugin: __webpack_require__(/*! ./filter */ \"./src/core/plugins/filter.js\"),\n  AbstractPlugin: __webpack_require__(/*! ./abstract */ \"./src/core/plugins/abstract.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/core/plugins/index.js?");
+eval("module.exports = {\n  AbstractDataSourcePlugin: __webpack_require__(/*! ./data-source */ \"./src/core/plugins/data-source.js\"),\n  AbstractFilterPlugin: __webpack_require__(/*! ./filter */ \"./src/core/plugins/filter.js\"),\n  AbstractPlugin: __webpack_require__(/*! ./abstract */ \"./src/core/plugins/abstract.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/core/plugins/index.js?");
 
 /***/ }),
 
