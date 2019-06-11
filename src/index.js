@@ -10,10 +10,11 @@
 const { Core, Events: EventsDict } = require('./core');
 
 /**
- * Then we import our plugin classes, which we'll provide to Core at instantiation
- * time via an options object.
+ * Then we import our plugin classes and related modules, which we'll provide to
+ * Core at instantiation time via an options object.
  */
 const DataSource = require('./plugins/data-source');
+const DataSourceApi = require('./plugins/data-source/api');
 const Events = require('./plugins/events');
 const Filter = require('./plugins/filter');
 const Cache = require('./plugins/cache');
@@ -44,6 +45,7 @@ const core = window.__CORE__ = new Core({
     [
       DataSource,
       {
+        api: DataSourceApi,
         alsoListenOn: [{ listenOn: EventsDict.PRODUCTS_FETCH, emitOn: EventsDict.SAYT_DISMISS , callback: () => true }],
       },
     ],
