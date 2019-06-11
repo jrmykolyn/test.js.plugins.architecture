@@ -104,7 +104,7 @@ eval("const { PluginTypes } = __webpack_require__(/*! ./utils */ \"./src/core/ut
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = {\n  ...__webpack_require__(/*! ./utils */ \"./src/core/utils.js\"),\n  Core: __webpack_require__(/*! ./core */ \"./src/core/core.js\"),\n  Plugins: __webpack_require__(/*! ./plugins */ \"./src/core/plugins/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/core/index.js?");
+eval("/**\n * This file acts as a manifest, in that it makes the contents of\n * the core/ directory importable via a central location.\n *\n * As a result, consumers of the Logic layer may import the Core\n * class in either of the following ways:\n * - `const Core = require('./core/core');`\n * - `const Core = require('./core');`\n */\nmodule.exports = {\n  ...__webpack_require__(/*! ./utils */ \"./src/core/utils.js\"),\n  Core: __webpack_require__(/*! ./core */ \"./src/core/core.js\"),\n  Plugins: __webpack_require__(/*! ./plugins */ \"./src/core/plugins/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/core/index.js?");
 
 /***/ }),
 
