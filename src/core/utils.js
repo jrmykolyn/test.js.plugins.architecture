@@ -25,6 +25,7 @@ const PluginTypes = {
  * This dictionary is imported and used by both plugins and components.
  */
 const Events = {
+  PAGE_SET: 'sfx:page:set',
   PRODUCTS_FETCH: 'sfx:products:fetch',
   PRODUCTS_SUPPLY: 'sfx:products:supply',
   SAYT_DISMISS: 'sfx:sayt:dismiss',
