@@ -269,7 +269,29 @@ eval("const { PluginTypes } = __webpack_require__(/*! ../../core */ \"./src/core
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = {\n  Product: __webpack_require__(/*! ./product */ \"./src/ui/components/product/index.js\"),\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  Sayt: __webpack_require__(/*! ./sayt */ \"./src/ui/components/sayt/index.js\"),\n  Suggestions: __webpack_require__(/*! ./suggestions */ \"./src/ui/components/suggestions/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
+eval("module.exports = {\n  Pagination: __webpack_require__(/*! ./pagination */ \"./src/ui/components/pagination/index.js\"),\n  PaginationNode: __webpack_require__(/*! ./pagination-node */ \"./src/ui/components/pagination-node/index.js\"),\n  Product: __webpack_require__(/*! ./product */ \"./src/ui/components/product/index.js\"),\n  Products: __webpack_require__(/*! ./products */ \"./src/ui/components/products/index.js\"),\n  Sayt: __webpack_require__(/*! ./sayt */ \"./src/ui/components/sayt/index.js\"),\n  Suggestions: __webpack_require__(/*! ./suggestions */ \"./src/ui/components/suggestions/index.js\"),\n  SearchBox: __webpack_require__(/*! ./search-box */ \"./src/ui/components/search-box/index.js\"),\n};\n\n\n//# sourceURL=webpack:///./src/ui/components/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/pagination-node/index.js":
+/*!****************************************************!*\
+  !*** ./src/ui/components/pagination-node/index.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const { interpolate } = __webpack_require__(/*! ../utils */ \"./src/ui/components/utils.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <style>\n    button {\n      padding: 1rem;\n      margin: 0 1rem;\n    }\n  </style>\n  <div class=\"view\"></div>\n`;\n\nconst tmpl = `\n<li>\n  <button>{{ n }}</button>\n</li>\n`;\n\nclass PaginationNode extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n    this.view = this.root.querySelector('.view');\n    this.state = {};\n  }\n\n  connectedCallback() {\n    this.state = JSON.parse(this.dataset.initialState || \"{}\");\n    this.render();\n  }\n\n  disconnectedCallback() {\n    // TODO\n  }\n\n  render() {\n    this.view.innerHTML = '';\n    this.view.innerHTML = interpolate(tmpl, this.state);\n  }\n}\n\nmodule.exports = PaginationNode;\n\n\n\n//# sourceURL=webpack:///./src/ui/components/pagination-node/index.js?");
+
+/***/ }),
+
+/***/ "./src/ui/components/pagination/index.js":
+/*!***********************************************!*\
+  !*** ./src/ui/components/pagination/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const { Events } = __webpack_require__(/*! ../../../core */ \"./src/core/index.js\");\nconst { interpolate } = __webpack_require__(/*! ../utils */ \"./src/ui/components/utils.js\");\n\nconst template = document.createElement('template');\ntemplate.innerHTML = `\n  <style>\n    ul {\n      list-style: none;\n      margin: 0;\n      padding: 0;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n    }\n  </style>\n  <div class=\"view\"></div>\n`;\n\nconst tmpl = `\n  <div class=\"pagination\">\n    <div class=\"pagination__inner\">\n      <ul class=\"pagination-list\" ref=\"list\"></ul>\n    </div>\n  </div>\n`;\n\nclass Pagination extends HTMLElement {\n  constructor() {\n    super();\n\n    this.root = this.attachShadow({ mode: 'open' });\n    this.root.appendChild(template.content.cloneNode(true));\n    this.view = this.root.querySelector('.view');\n    this.state = {};\n\n    // Bind.\n    this.updatePagination = this.updatePagination.bind(this);\n  }\n\n  connectedCallback() {\n    this.render();\n\n    window.addEventListener(Events.PRODUCTS_SUPPLY, this.updatePagination);\n  }\n\n  disconnectedCallback() {\n    window.removeEventListener(Events.PRODUCTS_SUPPLY, this.updatePagination);\n  }\n\n  render() {\n    this.view.innerHTML = '';\n    this.view.innerHTML = interpolate(tmpl, {});\n\n    const elem = this.view.querySelector('[ref=\"list\"]');\n    (new Array(this.state.totalPageCount || 0))\n      .fill(null)\n      .forEach((_, i) => {\n        const el = document.createElement('sfx-pagination-node');\n        el.setAttribute('data-initial-state', JSON.stringify({ n: i + 1 }));\n        el.addEventListener('click', () => window.dispatchEvent(new CustomEvent(Events.PAGE_SET, { detail: { query: this.state.originalQuery, page: i + 1 } })));\n        elem.appendChild(el);\n      });\n  }\n\n  updatePagination(e) {\n    const { detail } = e;\n    const { data } = detail;\n    const { totalPageCount, originalQuery } = data;\n\n    this.state = { ...this.state, totalPageCount, originalQuery };\n    this.render();\n  }\n}\n\nmodule.exports = Pagination;\n\n\n//# sourceURL=webpack:///./src/ui/components/pagination/index.js?");
 
 /***/ }),
 
