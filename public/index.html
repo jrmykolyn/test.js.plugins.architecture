@@ -19,11 +19,16 @@
         <sfx-products></sfx-products>
       </div>
     </main>
+    <footer class="footer">
+      <sfx-pagination></sfx-pagination>
+    </footer>
     <script src="../dist/main.js"></script>
     <script>
       window.customElements.define('sfx-sayt', window.__COMPONENTS__.Sayt);
       window.customElements.define('sfx-suggestions', window.__COMPONENTS__.Suggestions);
       window.customElements.define('sfx-search-box', window.__COMPONENTS__.SearchBox);
+      window.customElements.define('sfx-pagination', window.__COMPONENTS__.Pagination);
+      window.customElements.define('sfx-pagination-node', window.__COMPONENTS__.PaginationNode);
       window.customElements.define('sfx-products', window.__COMPONENTS__.Products);
       window.customElements.define('sfx-product', window.__COMPONENTS__.Product);
     </script>

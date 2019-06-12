@@ -43,3 +43,7 @@ body {
   max-width: 90rem;
   margin: 0 auto;
 }
+
+.footer {
+  padding: 3rem 0;
+}
