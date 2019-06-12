@@ -43,8 +43,12 @@ class DataSource extends AbstractDataSourcePlugin {
   }
 
   fetch(data) {
+    // TEMP: Hard-code `pageSize`.
+    const pageSize = 20;
+    const { page = 1, ...rest } = data;
+    const payload = { ...rest, pageSize, skip: pageSize * (page - 1) };
     return new Promise((resolve, reject) => {
-      return this.api.fetch(data)
+      return this.api.fetch(payload)
         .then(resolve, reject);
     });
   }
