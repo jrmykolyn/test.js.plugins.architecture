@@ -16,7 +16,22 @@ class Filter extends AbstractFilterPlugin {
 
   filter(data) {
     if (!data || !data.records) return data;
-    return this.transformResponse(data);
+    return [
+      this.transformResponse,
+      this.transformPaginationData,
+    ].reduce((acc, fn) => fn(acc), data);
+  }
+
+  transformPaginationData(data) {
+    const { originalRequest, totalRecordCount, ...rest } = data;
+    const { pageSize } = originalRequest;
+
+    return {
+      ...rest,
+      originalRequest,
+      totalRecordCount,
+      totalPageCount: Math.ceil(totalRecordCount / pageSize),
+    }
   }
 
   transformResponse(data) {
