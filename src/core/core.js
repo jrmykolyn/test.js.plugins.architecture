@@ -36,29 +36,6 @@ class Core {
   }
 
   /**
-   * The `applyFilters()` method is responsible for transforming event-related
-   * payloads before they are provided as arguments to the corresponding callback
-   * functions.
-   *
-   * In cases where the Core instance contains one or more `FILTER`-type plugins,
-   * each plugin's `filter()` method will be invoked with the payload data as its
-   * sole argument. In these cases, the `FILTER`-type plugins will be applied in
-   * the same order that they were provided at Core instantiation time.
-   *
-   * If the Core instance does not include any `FILTER`-type plugins, the event
-   * payload will not be modified.
-   */
-  applyFilters(listenOn, emitOn, data) {
-    const filters = this.getPluginsByType(PluginTypes.FILTER);
-    const payload = { listenOn, emitOn, data };
-    return filters.length
-      ? filters.reduce((acc, filter) => {
-        return acc.done ? acc : filter.filter(acc)
-      }, payload)
-      : payload;
-  }
-
-  /**
    * The `instantiatePlugins()` method is responsible for instantiating each
    * plugin received by Core via the options object.
    *
