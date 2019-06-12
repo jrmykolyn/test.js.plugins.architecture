@@ -14,6 +14,7 @@ class Events extends AbstractPlugin {
     return [
       { type: PluginTypes.CACHE, key: 'Cache' },
       { type: PluginTypes.LOGGER, key: 'Logger' },
+      { type: PluginTypes.FILTER_MANAGER, key: 'FilterManager' },
     ];
   }
 
@@ -30,9 +31,9 @@ class Events extends AbstractPlugin {
             : callback.fn.call(callback.context, detail);
 
         const fn = (data) => {
-          const filteredData = this.core.applyFilters(listenOn, emitOn, data);
+          const filteredData = this.deps.FilterManager.applyFilters(data) || data;
           this.deps.Cache.put(key, data);
-          this.dispatch(filteredData);
+          this.dispatch({ listenOn, emitOn, data: filteredData });
         };
 
         result instanceof Promise
