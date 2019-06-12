@@ -16,6 +16,7 @@ const { Core, Events: EventsDict } = require('./core');
 const DataSource = require('./plugins/data-source');
 const DataSourceApi = require('./plugins/data-source/api');
 const Events = require('./plugins/events');
+const FilterManager = require('./plugins/filter-manager');
 const Filter = require('./plugins/filter');
 const Cache = require('./plugins/cache');
 const Logger = require('./plugins/logger');
@@ -50,6 +51,7 @@ const core = window.__CORE__ = new Core({
       },
     ],
     Events,
+    FilterManager,
     Filter,
     Cache,
     Logger,
