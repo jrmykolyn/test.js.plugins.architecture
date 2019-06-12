@@ -1,4 +1,4 @@
-const { Events } = require('../../core');
+const { Events, PluginTypes } = require('../../core');
 const { AbstractFilterPlugin } = require('../../core/plugins');
 
 class Filter extends AbstractFilterPlugin {
@@ -6,27 +6,31 @@ class Filter extends AbstractFilterPlugin {
     return 'Filter';
   }
 
-  filter(payload) {
-    const { emitOn, data } = payload;
+  get DEPENDENCIES() {
+    return [{ type: PluginTypes.FILTER_MANAGER, key: 'FilterManager' }];
+  }
 
-    switch (emitOn) {
-      case Events.PRODUCTS_SUPPLY: return { ...payload, data: this.transformResponse(data) };
-      default: return payload;
-    }
+  afterInit() {
+    this.deps.FilterManager.add(this);
+  }
+
+  filter(data) {
+    if (!data || !data.records) return data;
+    return this.transformResponse(data);
   }
 
   transformResponse(data) {
+    const { records, ...rest } = data;
+
     return {
-      ...data,
-      records: data.records.map((record) => {
-        return {
-          ...record,
-          allMeta: {
-            ...record.allMeta,
-            title: record.allMeta.title.toUpperCase(),
-          },
-        };
-      }),
+      ...rest,
+      records: records.map((record) => ({
+        ...record,
+        allMeta: {
+          ...record.allMeta,
+          title: record.allMeta.title.toUpperCase(),
+        },
+      })),
     };
   }
 }
