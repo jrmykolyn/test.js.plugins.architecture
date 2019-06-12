@@ -36,6 +36,7 @@ class DataSource extends AbstractDataSourcePlugin {
     return this.settings.onlyListenOn.length
       ? this.settings.onlyListenOn
       : [
+          { listenOn: Events.PAGE_SET, emitOn: Events.PRODUCTS_SUPPLY, callback: { fn: this.fetch, context: this } },
           { listenOn: Events.PRODUCTS_FETCH, emitOn: Events.PRODUCTS_SUPPLY, callback: { fn: this.fetch, context: this } },
           { listenOn: Events.SAYT_PRODUCTS_FETCH, emitOn: Events.SAYT_PRODUCTS_SUPPLY, callback: { fn: this.fetchSaytProducts, context: this } },
           ...this.settings.alsoListenOn,
